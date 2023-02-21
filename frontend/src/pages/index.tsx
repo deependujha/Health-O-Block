@@ -1,9 +1,10 @@
+import LoginPage from '@/components/HomePage/LoginPage'
 import React from 'react'
 
 const Home = () => {
   return (
     <div>
-      <div className='text-center text-blue-700'>Hello world</div>
+      <LoginPage/>
     </div>
   )
 }
