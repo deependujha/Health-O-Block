@@ -51,7 +51,7 @@ export default function AdminPanelLogin({
 		) {
 			dispatch(setAllowed(true));
 			setTimeout(() => {
-				myRouter.push('/adminPanel');
+				myRouter.push('/adminPage');
 				setAdminLoginData({ ...adminLoginData, loading: false });
 			}, 2000);
 		} else {
