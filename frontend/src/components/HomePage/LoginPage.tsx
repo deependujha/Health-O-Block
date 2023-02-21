@@ -1,9 +1,12 @@
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@nextui-org/react';
 import HorizontalLine from '../CustomComponents/HorizontalLine';
+import AdminPanelLogin from '../Modals/AdminPanelLogin';
 
 const LoginPage = () => {
+	const [adminPanelLoginModalVisible, setAdminPanelLoginModalVisible] =
+		useState(false);
 	const loginCitizen = async () => {
 		console.log('clicked on login as citizen');
 	};
@@ -17,7 +20,7 @@ const LoginPage = () => {
 	};
 
 	const adminPanel = async () => {
-		console.log('clicked on admin panel');
+		setAdminPanelLoginModalVisible(true);
 	};
 
 	return (
@@ -102,6 +105,10 @@ const LoginPage = () => {
 							>
 								Admin panel
 							</Button>
+							<AdminPanelLogin
+								adminPanelLoginModalVisible={adminPanelLoginModalVisible}
+								setAdminPanelLoginModalVisible={setAdminPanelLoginModalVisible}
+							/>
 						</div>
 					</div>
 				</div>
