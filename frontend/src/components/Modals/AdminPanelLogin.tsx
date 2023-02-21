@@ -8,10 +8,13 @@ import {
 	Text,
 	Divider,
 	FormElement,
+	Loading,
 } from '@nextui-org/react';
 import HorizontalLine from '../CustomComponents/HorizontalLine';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
+import { useDispatch } from 'react-redux';
+import { setAllowed } from '@/redux/slices/AdminPanelSlice';
 
 type AdminPanelLoginProps = {
 	adminPanelLoginModalVisible: boolean;
@@ -21,14 +24,16 @@ type AdminPanelLoginProps = {
 const InitialAdminLoginState = {
 	adminId: '',
 	password: '',
+	loading: false,
 };
 
 export default function AdminPanelLogin({
 	adminPanelLoginModalVisible,
 	setAdminPanelLoginModalVisible,
 }: AdminPanelLoginProps) {
-	const [adminLoginData, setAdminLoginData] = useState(InitialAdminLoginState);
+	const dispatch = useDispatch();
 	const myRouter = useRouter();
+	const [adminLoginData, setAdminLoginData] = useState(InitialAdminLoginState);
 	const closeHandler = () => {
 		setAdminLoginData(InitialAdminLoginState);
 		setAdminPanelLoginModalVisible(false);
@@ -39,22 +44,26 @@ export default function AdminPanelLogin({
 		setAdminLoginData({ ...adminLoginData, [name]: value });
 	};
 	const signIn = async () => {
-		console.log('clicked on sign in');
-		console.log('admin id is:', adminLoginData.adminId);
-		console.log('password is:', adminLoginData.password);
+		setAdminLoginData({ ...adminLoginData, loading: true });
 		if (
 			adminLoginData.adminId === process.env.NEXT_PUBLIC_SECRET_ADMIN_ID &&
 			adminLoginData.password === process.env.NEXT_PUBLIC_SECRET_PASSWORD
 		) {
-			console.log('admin logged in successfully');
-			myRouter.push('/adminPanel');
+			dispatch(setAllowed(true));
+			setTimeout(() => {
+				myRouter.push('/adminPanel');
+				setAdminLoginData({ ...adminLoginData, loading: false });
+			}, 2000);
 		} else {
-			setAdminPanelLoginModalVisible(false);
-			Swal.fire({
-				icon: 'error',
-				title: 'Oops...',
-				text: 'Sorry! wrong admin ID or password.',
-			});
+			setTimeout(() => {
+				setAdminLoginData({ ...adminLoginData, loading: false });
+				setAdminPanelLoginModalVisible(false);
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Sorry! wrong admin ID or password.',
+				});
+			}, 2000);
 		}
 	};
 
@@ -118,7 +127,11 @@ export default function AdminPanelLogin({
 						Close
 					</Button>
 					<Button auto onPress={signIn}>
-						Sign in
+						{adminLoginData.loading ? (
+							<Loading color={'white'} />
+						) : (
+							<div>Sign in</div>
+						)}
 					</Button>
 				</Modal.Footer>
 			</Modal>
