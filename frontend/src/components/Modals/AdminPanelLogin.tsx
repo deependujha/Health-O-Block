@@ -10,6 +10,8 @@ import {
 	FormElement,
 } from '@nextui-org/react';
 import HorizontalLine from '../CustomComponents/HorizontalLine';
+import Swal from 'sweetalert2';
+import { useRouter } from 'next/router';
 
 type AdminPanelLoginProps = {
 	adminPanelLoginModalVisible: boolean;
@@ -26,7 +28,7 @@ export default function AdminPanelLogin({
 	setAdminPanelLoginModalVisible,
 }: AdminPanelLoginProps) {
 	const [adminLoginData, setAdminLoginData] = useState(InitialAdminLoginState);
-
+	const myRouter = useRouter();
 	const closeHandler = () => {
 		setAdminLoginData(InitialAdminLoginState);
 		setAdminPanelLoginModalVisible(false);
@@ -45,8 +47,14 @@ export default function AdminPanelLogin({
 			adminLoginData.password === process.env.NEXT_PUBLIC_SECRET_PASSWORD
 		) {
 			console.log('admin logged in successfully');
+			myRouter.push('/adminPanel');
 		} else {
-			console.log('admin login failed');
+			setAdminPanelLoginModalVisible(false);
+			Swal.fire({
+				icon: 'error',
+				title: 'Oops...',
+				text: 'Sorry! wrong admin ID or password.',
+			});
 		}
 	};
 
