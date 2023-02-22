@@ -5,7 +5,7 @@ import React from 'react';
 const WelcomePage = () => {
 	return (
 		<div>
-			<div className='py-3'>
+			<div className="py-3">
 				<AyushmanBharatLogo />
 			</div>
 			<div className="flex justify-center">

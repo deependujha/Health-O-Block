@@ -1,13 +1,21 @@
-import express, { Express, Request, Response } from 'express';
+import './database/conn';
 import dotenv from 'dotenv';
+import express, { Express, Request, Response } from 'express';
+import { DoctorRouter } from './router';
 
 dotenv.config();
 
 const app: Express = express();
 const port = process.env.PORT || 4000;
 
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use('/doctor', DoctorRouter);
+
 app.get('/', (req: Request, res: Response) => {
-	res.send('Express + TypeScript Server');
+	res.send('Hello World!');
 });
 
 app.listen(port, () => {
