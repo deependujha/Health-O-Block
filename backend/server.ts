@@ -1,7 +1,7 @@
 import './database/conn';
 import dotenv from 'dotenv';
 import express, { Express, Request, Response } from 'express';
-import { DoctorRouter } from './router';
+import { DoctorRouter, UserRouter } from './router';
 import cors from 'cors';
 
 dotenv.config();
@@ -14,6 +14,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/doctor', DoctorRouter);
+app.use('/user', UserRouter);
 
 app.get('/', (req: Request, res: Response) => {
 	res.send('Hello World!');

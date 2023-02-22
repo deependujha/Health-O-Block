@@ -20,19 +20,22 @@ const RegisterNewDoctor = () => {
 	};
 
 	const registerDoctor = async () => {
+		if (!img) {
+			alert("Please upload a profile picture for the user's account");
+			return;
+		}
 		const formData = new FormData();
 		formData.append('name', name);
 		formData.append('email', email);
-		if (img) formData.append('image', img);
-		else formData.append('image', '');
+		formData.append('image', img);
 		formData.append('walletAddress', walletAddress);
 		formData.append('description', description);
 
-		console.log('registering doctor');
-		console.log('doctor name: ', formData.get('name'));
-		console.log('doctor regNo: ', email);
-		console.log('doctor walletAddress: ', walletAddress);
-		console.log('doctor description: ', description);
+		// console.log('registering doctor');
+		// console.log('doctor name: ', formData.get('name'));
+		// console.log('doctor regNo: ', email);
+		// console.log('doctor walletAddress: ', walletAddress);
+		// console.log('doctor description: ', description);
 		axios
 			.post('http://localhost:7000/doctor/register', formData)
 			.then((res) => {

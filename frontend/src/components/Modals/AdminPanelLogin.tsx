@@ -10,7 +10,6 @@ import {
 	FormElement,
 	Loading,
 } from '@nextui-org/react';
-import HorizontalLine from '../CustomComponents/HorizontalLine';
 import Swal from 'sweetalert2';
 import { useRouter } from 'next/router';
 import { useDispatch } from 'react-redux';

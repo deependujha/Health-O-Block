@@ -15,6 +15,7 @@ app.use((0, cors_1.default)());
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use('/doctor', router_1.DoctorRouter);
+app.use('/user', router_1.UserRouter);
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });

@@ -4,10 +4,15 @@ import { Button } from '@nextui-org/react';
 import HorizontalLine from '../CustomComponents/HorizontalLine';
 import AdminPanelLogin from '../Modals/AdminPanelLogin';
 import AyushmanBharatLogo from '../CustomComponents/AyushmanBharatLogo';
+import RegisterNewUser from '../Modals/RegisterNewUser';
 
 const LoginPage = () => {
 	const [adminPanelLoginModalVisible, setAdminPanelLoginModalVisible] =
 		useState(false);
+
+	const [registerNewUserModalVisible, setRegisterNewUserModalVisible] =
+		useState(false);
+
 	const loginCitizen = async () => {
 		console.log('clicked on login as citizen');
 	};
@@ -17,7 +22,7 @@ const LoginPage = () => {
 	};
 
 	const register = async () => {
-		console.log('clicked on register');
+		setRegisterNewUserModalVisible(true);
 	};
 
 	const adminPanel = async () => {
@@ -38,7 +43,7 @@ const LoginPage = () => {
 							padding: '15px',
 						}}
 					>
-						<AyushmanBharatLogo/>
+						<AyushmanBharatLogo />
 						<HorizontalLine />
 						<div>
 							<Button
@@ -99,6 +104,10 @@ const LoginPage = () => {
 							<AdminPanelLogin
 								adminPanelLoginModalVisible={adminPanelLoginModalVisible}
 								setAdminPanelLoginModalVisible={setAdminPanelLoginModalVisible}
+							/>
+							<RegisterNewUser
+								registerNewUserModalVisible={registerNewUserModalVisible}
+								setRegisterNewUserModalVisible={setRegisterNewUserModalVisible}
 							/>
 						</div>
 					</div>
