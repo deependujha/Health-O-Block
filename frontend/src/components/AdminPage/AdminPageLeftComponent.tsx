@@ -50,7 +50,7 @@ const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 				style={{ width: '22vw', borderWidth: '2px', borderColor: 'white' }}
 			>
 				<div className="" style={{ height: '94vh' }}>
-					<div className="flex justify-center">
+					<div className="flex justify-center py-2">
 						<button
 							onClick={() => {
 								setCurr('welcome');

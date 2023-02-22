@@ -9,7 +9,7 @@ type MainSubRightComponentProps = {
 		| 'welcome';
 };
 
-const AdminPageRightComponent = ({curr}:MainSubRightComponentProps) => {
+const AdminPageRightComponent = ({ curr }: MainSubRightComponentProps) => {
 	return (
 		<div>
 			<div className="flex h-screen">
@@ -17,7 +17,7 @@ const AdminPageRightComponent = ({curr}:MainSubRightComponentProps) => {
 					className="rounded-3xl my-auto"
 					style={{ width: '70vw', borderWidth: '2px', borderColor: 'white' }}
 				>
-					<div className="" style={{ height: '94vh' }}>
+					<div className="" style={{ height: '94vh', overflow: 'hidden' }}>
 						<MainSubRightComponent curr={curr} />
 					</div>
 				</div>
