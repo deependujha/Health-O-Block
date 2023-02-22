@@ -1,11 +1,13 @@
 import { Input, Card, Divider, Textarea, Button } from '@nextui-org/react';
 import Image from 'next/image';
 import React, { useState } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const RegisterNewDoctor = () => {
-	const [img, setImg] = useState<File | null>();
+	const [img, setImg] = useState<File | null>(null);
 	const [name, setName] = useState<string>('');
-	const [regNo, setRegNo] = useState<string>('');
+	const [email, setEmail] = useState<string>('');
 	const [walletAddress, setWalletAddress] = useState<string>('');
 	const [description, setDescription] = useState<string>('');
 
@@ -18,11 +20,40 @@ const RegisterNewDoctor = () => {
 	};
 
 	const registerDoctor = async () => {
+		const formData = new FormData();
+		formData.append('name', name);
+		formData.append('email', email);
+		if (img) formData.append('image', img);
+		else formData.append('image', '');
+		formData.append('walletAddress', walletAddress);
+		formData.append('description', description);
+
 		console.log('registering doctor');
-		console.log('doctor name: ', name);
-		console.log('doctor regNo: ', regNo);
+		console.log('doctor name: ', formData.get('name'));
+		console.log('doctor regNo: ', email);
 		console.log('doctor walletAddress: ', walletAddress);
 		console.log('doctor description: ', description);
+		axios
+			.post('http://localhost:7000/doctor/register', formData)
+			.then((res) => {
+				console.log(res.data);
+				// set all the states to empty
+				setImg(null);
+				setName('');
+				setEmail('');
+				setWalletAddress('');
+				setDescription('');
+
+				Swal.fire('Success', 'Doctor registration successful', 'success');
+			})
+			.catch((err) => {
+				console.log(err);
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Something went wrong!',
+				});
+			});
 	};
 
 	return (
@@ -75,10 +106,10 @@ const RegisterNewDoctor = () => {
 								<Input
 									clearable
 									bordered
-									value={regNo}
-									onChange={(e) => setRegNo(e.target.value)}
-									aria-label="Enter Doctor's registration number"
-									placeholder="registration number"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									aria-label="Enter Doctor's email"
+									placeholder="email address"
 									color="secondary"
 									size="lg"
 									style={{ width: '500px' }}
