@@ -45,10 +45,22 @@ userRouter.get('/:walletAddress', async (req, res) => {
 	try {
 		const { walletAddress } = req.params;
 		const user = await UserModel.findOne({ walletAddress });
+		if (user === null) return res.send('user not found');
 		return res.send(user);
 	} catch (err) {
 		return res.send(err);
 	}
 });
+
+userRouter.get('/image/:imgName', async (req, res) => {
+	try {
+		const { imgName } = req.params;
+		const imagePath = path.join(__dirname, '../MyImages/users', imgName);
+		return res.sendFile(imagePath);
+	} catch (err) {
+		res.send(err);
+	}
+});
+		
 
 export default userRouter;

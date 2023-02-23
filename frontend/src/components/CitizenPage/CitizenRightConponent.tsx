@@ -1,4 +1,5 @@
 import React from 'react';
+import MainSubRightComponent from './SubRightComponents/MainSubRightComponent';
 
 type MainSubRightComponentProps = {
 	curr:
@@ -19,7 +20,7 @@ const CitizenPageRightComponent = ({ curr }: MainSubRightComponentProps) => {
 					style={{ width: '70vw', borderWidth: '2px', borderColor: 'white' }}
 				>
 					<div className="" style={{ height: '94vh', overflow: 'hidden' }}>
-						Main sub right component: {curr}
+						<MainSubRightComponent curr={curr} />
 					</div>
 				</div>
 			</div>
