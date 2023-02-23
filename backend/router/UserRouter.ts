@@ -40,4 +40,15 @@ userRouter.post('/register', async (req, res) => {
 	}
 });
 
+// get a user based on his wallet address
+userRouter.get('/:walletAddress', async (req, res) => {
+	try {
+		const { walletAddress } = req.params;
+		const user = await UserModel.findOne({ walletAddress });
+		return res.send(user);
+	} catch (err) {
+		return res.send(err);
+	}
+});
+
 export default userRouter;
