@@ -4,6 +4,8 @@ import Head from 'next/head';
 
 import { store } from '@/redux/store';
 import { Provider } from 'react-redux';
+import 'simplebar-react/dist/simplebar.min.css';
+
 
 export default function App({ Component, pageProps }: AppProps) {
 	return (

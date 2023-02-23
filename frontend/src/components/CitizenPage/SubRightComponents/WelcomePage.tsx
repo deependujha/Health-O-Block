@@ -12,7 +12,7 @@ const WelcomePage = () => {
 				<Divider color={'error'} style={{ width: '30vw' }} />
 			</div>
 			<div className="text-3xl text-center text-pink-500 pt-64">
-				Welcome to the admin page of 'Ayushman health portal' 🧑‍⚕️🏥
+				Welcome to the 'Ayushman health portal' 🧑‍⚕️🏥
 			</div>
 		</div>
 	);

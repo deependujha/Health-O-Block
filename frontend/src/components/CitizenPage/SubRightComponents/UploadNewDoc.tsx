@@ -2,7 +2,7 @@ import React from 'react'
 
 const UploadNewDoc = () => {
   return (
-    <div>This is UploadNewDoc page.</div>
+    <div className='text-center pt-28'>This is UploadNewDoc page.</div>
   )
 }
 
