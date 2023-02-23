@@ -3,9 +3,11 @@ import CitizenPageLeftComponent from './CitizenLeftComponent';
 import CitizenPageRightComponent from './CitizenRightConponent';
 
 type currPossibleValues =
-	| 'approve_citizens'
-	| 'register_new_doctor'
-	| 'superuser_access'
+	| 'upload_new_docs'
+	| 'your_docs'
+	| 'add_nominee'
+	| 'nominee'
+	| 'profile'
 	| 'welcome';
 
 const MainCitizenPageComponent = () => {

@@ -8,9 +8,11 @@ import AyushmanBharatLogo from '../CustomComponents/AyushmanBharatLogo';
 import LogoutConfirmation from '../Modals/LogoutConfirmation';
 
 type currPossibleValues =
-	| 'approve_citizens'
-	| 'register_new_doctor'
-	| 'superuser_access'
+	| 'upload_new_docs'
+	| 'your_docs'
+	| 'add_nominee'
+	| 'nominee'
+	| 'profile'
 	| 'welcome';
 
 type CitizenPageLeftComponentProps = {
@@ -28,16 +30,22 @@ const CitizenPageLeftComponent = ({
 		setLogoutConfirmationModalVisible(true);
 	};
 
-	const approveCitizens = async () => {
-		setCurr('approve_citizens');
+	const uploadNewDocument = async () => {
+		setCurr('upload_new_docs');
 	};
 
-	const registerNewDoctor = async () => {
-		setCurr('register_new_doctor');
+	const yourDocs = async () => {
+		setCurr('your_docs');
 	};
 
-	const superUserAccess = async () => {
-		setCurr('superuser_access');
+	const addNominee = async () => {
+		setCurr('add_nominee');
+	};
+	const nominee = async () => {
+		setCurr('nominee');
+	};
+	const yourProfile = async () => {
+		setCurr('profile');
 	};
 
 	return (
@@ -66,27 +74,45 @@ const CitizenPageLeftComponent = ({
 								<Button
 									color="gradient"
 									style={{ width: '360px' }}
-									onPress={approveCitizens}
+									onPress={uploadNewDocument}
 								>
-									<div className="text-lg">Approve citizens</div>
+									<div className="text-lg">Upload new document</div>
 								</Button>
 							</div>
 							<div className="flex justify-center my-6  ">
 								<Button
 									color="gradient"
-									onPress={superUserAccess}
+									onPress={yourDocs}
 									style={{ width: '360px' }}
 								>
-									<div className="text-lg">SuperUser access</div>
+									<div className="text-lg">Your documents</div>
 								</Button>
 							</div>
 							<div className="flex justify-center my-6">
 								<Button
 									color="gradient"
-									onPress={registerNewDoctor}
+									onPress={addNominee}
 									style={{ width: '360px' }}
 								>
-									<div className="text-lg">Register new Doctor</div>
+									<div className="text-lg">Add new Nominee</div>
+								</Button>
+							</div>
+							<div className="flex justify-center my-6">
+								<Button
+									color="gradient"
+									onPress={nominee}
+									style={{ width: '360px' }}
+								>
+									<div className="text-lg">Nominees</div>
+								</Button>
+							</div>
+							<div className="flex justify-center my-6">
+								<Button
+									color="gradient"
+									onPress={yourProfile}
+									style={{ width: '360px' }}
+								>
+									<div className="text-lg">Profile</div>
 								</Button>
 							</div>
 						</div>
