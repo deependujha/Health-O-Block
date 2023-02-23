@@ -13,10 +13,12 @@ type currPossibleValues =
 	| 'superuser_access'
 	| 'welcome';
 
-type AdminPageLeftComponentProps = {
+type CitizenPageLeftComponentProps = {
 	setCurr: React.Dispatch<React.SetStateAction<currPossibleValues>>;
 };
-const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
+const CitizenPageLeftComponent = ({
+	setCurr,
+}: CitizenPageLeftComponentProps) => {
 	const myDispatch = useDispatch();
 	const router = useRouter();
 	const [logoutConfirmationModalVisible, setLogoutConfirmationModalVisible] =
@@ -114,4 +116,4 @@ const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 	);
 };
 
-export default AdminPageLeftComponent;
+export default CitizenPageLeftComponent;
