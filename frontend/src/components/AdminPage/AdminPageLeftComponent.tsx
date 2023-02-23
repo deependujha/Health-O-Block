@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import { setAllowed } from '@/redux/slices/AdminPanelSlice';
 import { useRouter } from 'next/router';
 import AyushmanBharatLogo from '../CustomComponents/AyushmanBharatLogo';
+import LogoutConfirmation from '../Modals/LogoutConfirmation';
 
 type currPossibleValues =
 	| 'approve_citizens'
@@ -18,17 +19,11 @@ type AdminPageLeftComponentProps = {
 const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 	const myDispatch = useDispatch();
 	const router = useRouter();
-	const [loadingLogout, setLoadingLogout] = useState(false);
+	const [logoutConfirmationModalVisible, setLogoutConfirmationModalVisible] =
+		useState(false);
 
 	const logoutAsAdmin = async () => {
-		setLoadingLogout(true);
-		setTimeout(() => {
-			router.push('/');
-			myDispatch(setAllowed(false));
-			setLoadingLogout(false);
-		}, 1500);
-
-		console.log('clicked on logout as admin');
+		setLogoutConfirmationModalVisible(true);
 	};
 
 	const approveCitizens = async () => {
@@ -99,16 +94,18 @@ const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 								style={{ width: '360px' }}
 								onPress={logoutAsAdmin}
 							>
-								<div className="text-lg">
-									{loadingLogout ? (
-										<div>
-											<Loading color={'white'} />
-										</div>
-									) : (
-										<div>logout as admin</div>
-									)}
-								</div>
+								<div className="text-lg">logout as admin</div>
 							</Button>
+							<div>
+								<LogoutConfirmation
+									logoutConfirmationModalVisible={
+										logoutConfirmationModalVisible
+									}
+									setLogoutConfirmationModalVisible={
+										setLogoutConfirmationModalVisible
+									}
+								/>
+							</div>
 						</div>
 					</div>
 				</div>
