@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import AdminPanelReducer from './slices/AdminPanelSlice';
+import CitizenReducer from './slices/CitizenSlice';
 
 export const store = configureStore({
 	reducer: {
 		adminPanel: AdminPanelReducer,
+		citizen: CitizenReducer,
 	},
 });
 
