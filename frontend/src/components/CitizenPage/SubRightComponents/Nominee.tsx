@@ -1,12 +1,19 @@
-import React from 'react'
+import AddedYouAsNomineeCard from '@/components/CustomComponents/AddedYouAsNomineeCard';
+import React from 'react';
 
 const Nominee = () => {
-  return (
+	return (
 		<div className="text-center pt-28">
-			Here you will be able to see all the users who have added you as nominee
-			and their documents.
+			<div className="text-xl text-pink-600 font-mono font-bold">
+				These people have trusted you as their nominee.
+			</div>
+			<div className="flex overflow-hidden justify-center">
+				<AddedYouAsNomineeCard />
+				<AddedYouAsNomineeCard />
+				<AddedYouAsNomineeCard />
+			</div>
 		</div>
 	);
-}
+};
 
-export default Nominee
+export default Nominee;
