@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { Card, Grid, Text, Button, Row } from '@nextui-org/react';
 import Image from 'next/image';
 import RemoveNomineeConfirmation from '../Modals/RemoveNomineeConfirmation';
+import { imageUrlForBackend } from '@/utils/ImageUrlForBackend';
 
-const AddedYouAsNomineeCard = () => {
+const AddedYouAsNomineeCard = ({ user }: any) => {
+	const myImgUrl = imageUrlForBackend(user.imageUrl);
 	const viewDocsBtn = () => {
 		console.log('clicked on view docs button');
 	};
@@ -14,15 +16,10 @@ const AddedYouAsNomineeCard = () => {
 				<Card.Body>
 					<div>
 						<div className="flex justify-center">
-							<Image
-								src="/assets/dummyImg.png"
-								width={250}
-								height={250}
-								alt="nomineeImg"
-							/>
+							<Image src={myImgUrl} width={250} height={250} alt="nomineeImg" />
 						</div>
 						<div className="text-lg font-bold text-blue-500 text-center">
-							Deependu Jha
+							{user.name}
 						</div>
 					</div>
 					<Card.Divider />

@@ -15,7 +15,7 @@ export const citizenSlice = createSlice({
 			state.address = action.payload;
 		},
 
-		setRefreshVal: (state, action) => {
+		setRefreshVal: (state) => {
 			state.refreshVal = 1 - state.refreshVal;
 		},
 	},

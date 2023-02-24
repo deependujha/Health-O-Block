@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
 	Modal,
 	Button,
@@ -7,8 +7,15 @@ import {
 	Row,
 	Checkbox,
 	Divider,
+	Loading,
 } from '@nextui-org/react';
 import Image from 'next/image';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import { setRefreshVal } from '@/redux/slices/CitizenSlice';
 
 type Props = {
 	visible: boolean;
@@ -20,17 +27,76 @@ type Props = {
 		imageUrl: string;
 	};
 };
+
+type NomineeStatus = 'already' | 'no' | 'loading';
+
 export default function SearchUserModal({
 	visible,
 	setVisible,
 	userData,
 }: Props) {
+	const dispatch = useDispatch();
+	const { address } = useSelector((state: RootState) => state.citizen);
+	const [nomineeStatus, setNomineeStatus] = useState<NomineeStatus>('loading');
+
+	const fetchNomineeStatus = async () => {
+		axios
+			.get(`http://localhost:7000/nominee`, {
+				params: { user: address, nominee: userData.walletAddress },
+			})
+			.then((res) => {
+				console.log(res.data);
+				if (res.data === 'No nominee found') {
+					setNomineeStatus('no');
+				} else {
+					setNomineeStatus('already');
+				}
+			})
+			.catch((err) => {
+				console.log(err);
+			});
+	};
+
+	useEffect(() => {
+		if (userData.walletAddress) fetchNomineeStatus();
+	}, [userData.walletAddress]);
+
 	const closeHandler = () => {
 		setVisible(false);
 	};
 
 	const addNominee = async () => {
 		console.log('add nominee');
+		if (nomineeStatus === 'no') {
+			axios
+				.post('http://localhost:7000/nominee', {
+					user: address,
+					nominee: userData.walletAddress,
+				})
+				.then((res) => {
+					setVisible(false);
+					console.log(res.data);
+					setNomineeStatus('already');
+					Swal.fire({
+						icon: 'success',
+						title: 'Nominee added successfully',
+						showConfirmButton: false,
+						timer: 1500,
+					});
+					dispatch(setRefreshVal());
+				})
+				.catch((err) => {
+					setVisible(false);
+					console.log(err);
+					Swal.fire({
+						icon: 'error',
+						title: 'Oops...',
+						text: 'Something went wrong!',
+					});
+				});
+		} else {
+			return;
+		}
 	};
 
 	return (
@@ -75,7 +141,23 @@ export default function SearchUserModal({
 						Close
 					</Button>
 					<Button auto onPress={addNominee}>
-						Add nominee
+						{nomineeStatus === 'loading' ? (
+							<div className="">
+								<Loading color={'white'} />
+							</div>
+						) : (
+							<div></div>
+						)}
+						{nomineeStatus === 'no' ? (
+							<div className="">Add nominee</div>
+						) : (
+							<div></div>
+						)}
+						{nomineeStatus === 'already' ? (
+							<div className="">Already added as nominee</div>
+						) : (
+							<div></div>
+						)}
 					</Button>
 				</Modal.Footer>
 			</Modal>

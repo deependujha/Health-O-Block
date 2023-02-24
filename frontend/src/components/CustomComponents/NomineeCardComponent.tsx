@@ -2,10 +2,19 @@ import React, { useState } from 'react';
 import { Card, Grid, Text, Button, Row } from '@nextui-org/react';
 import Image from 'next/image';
 import RemoveNomineeConfirmation from '../Modals/RemoveNomineeConfirmation';
+import { imageUrlForBackend } from '@/utils/ImageUrlForBackend';
 
-const NomineeCardComponent = () => {
+type props = {
+	name: string;
+	imageUrl: string;
+	walletAddress: string;
+};
+
+const NomineeCardComponent = ({ name, imageUrl, walletAddress }: props) => {
 	const [removeNomineeModalVisible, setRemoveNomineeModalVisible] =
 		useState(false);
+
+	const myImageUrl = imageUrlForBackend(imageUrl);
 
 	const removeNomineeBtn = () => {
 		setRemoveNomineeModalVisible(true);
@@ -18,14 +27,14 @@ const NomineeCardComponent = () => {
 					<div>
 						<div className="flex justify-center">
 							<Image
-								src="/assets/dummyImg.png"
+								src={myImageUrl}
 								width={100}
 								height={100}
 								alt="nomineeImg"
 							/>
 						</div>
 						<div className="text-lg font-bold text-blue-500 text-center">
-							Deependu Jha
+							{name}
 						</div>
 					</div>
 					<Card.Divider />
@@ -40,6 +49,8 @@ const NomineeCardComponent = () => {
 				<RemoveNomineeConfirmation
 					removeNomineeModalVisible={removeNomineeModalVisible}
 					setRemoveNomineeModalVisible={setRemoveNomineeModalVisible}
+					name={name}
+					walletAddress={walletAddress}
 				/>
 			</div>
 		</div>

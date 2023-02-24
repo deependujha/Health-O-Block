@@ -30,7 +30,7 @@ export default function LogoutConfirmation({
 		setTimeout(() => {
 			router.push('/');
 			setLoadingLogout(false);
-		}, 1500);
+		}, 500);
 	};
 
 	const closeHandler = () => {

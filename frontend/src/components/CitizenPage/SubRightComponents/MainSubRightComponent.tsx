@@ -5,6 +5,8 @@ import UploadNewDoc from './UploadNewDoc';
 import WelcomePage from './WelcomePage';
 import YourDocs from './YourDocs';
 import YourProfile from './YourProfile';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
 
 type MainSubRightComponentProps = {
 	curr:
@@ -17,6 +19,7 @@ type MainSubRightComponentProps = {
 };
 
 const MainSubRightComponent = ({ curr }: MainSubRightComponentProps) => {
+	const {address} = useSelector((state: RootState) => state.citizen);
 	// write all conditions here
 	if (curr === 'upload_new_docs') {
 		return (
@@ -45,7 +48,7 @@ const MainSubRightComponent = ({ curr }: MainSubRightComponentProps) => {
 	} else if (curr === 'profile') {
 		return (
 			<div>
-				<YourProfile />
+				<YourProfile walletAddress={address} />
 			</div>
 		);
 	} else if (curr === 'welcome') {
