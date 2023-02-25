@@ -3,6 +3,7 @@ import { Card, Grid, Text, Button, Row } from '@nextui-org/react';
 import Image from 'next/image';
 import RemoveNomineeConfirmation from '../Modals/RemoveNomineeConfirmation';
 import { imageUrlForBackend } from '@/utils/ImageUrlForBackend';
+import finalPropsSelectorFactory from 'react-redux/es/connect/selectorFactory';
 
 type props = {
 	name: string;
@@ -14,7 +15,7 @@ const NomineeCardComponent = ({ name, imageUrl, walletAddress }: props) => {
 	const [removeNomineeModalVisible, setRemoveNomineeModalVisible] =
 		useState(false);
 
-	const myImageUrl = imageUrlForBackend(imageUrl);
+	const myImageUrl = imageUrlForBackend(imageUrl,false);
 
 	const removeNomineeBtn = () => {
 		setRemoveNomineeModalVisible(true);

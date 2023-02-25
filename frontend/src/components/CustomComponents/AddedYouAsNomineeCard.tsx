@@ -5,7 +5,7 @@ import RemoveNomineeConfirmation from '../Modals/RemoveNomineeConfirmation';
 import { imageUrlForBackend } from '@/utils/ImageUrlForBackend';
 
 const AddedYouAsNomineeCard = ({ user }: any) => {
-	const myImgUrl = imageUrlForBackend(user.imageUrl);
+	const myImgUrl = imageUrlForBackend(user.imageUrl,false);
 	const viewDocsBtn = () => {
 		console.log('clicked on view docs button');
 	};

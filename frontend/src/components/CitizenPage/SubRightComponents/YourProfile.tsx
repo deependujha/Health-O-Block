@@ -9,15 +9,13 @@ import { imageUrlForBackend } from '@/utils/ImageUrlForBackend';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 
-type props = {
-	walletAddress: string;
-};
-
-const YourProfile = ({ walletAddress }: props) => {
-	const { refreshVal } = useSelector((state: RootState) => state.citizen);
+const YourProfile = () => {
+	const { refreshVal, address: walletAddress } = useSelector(
+		(state: RootState) => state.citizen
+	);
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
-	const [imageUrl, setImageUrl] = useState('');
+	const [imageUrl, setImageUrl] = useState('/assets/dummyImg.png');
 	const [loading, setLoading] = useState(true);
 
 	const [nomineeData, setNomineeData] = useState<any>([]);
@@ -26,7 +24,7 @@ const YourProfile = ({ walletAddress }: props) => {
 		axios
 			.get(`http://localhost:7000/user/${walletAddress}`)
 			.then((res) => {
-				const updatedImageUrl = imageUrlForBackend(res.data.imageUrl);
+				const updatedImageUrl = imageUrlForBackend(res.data.imageUrl, false);
 				setName(res.data.name);
 				setEmail(res.data.email);
 				setImageUrl(updatedImageUrl);

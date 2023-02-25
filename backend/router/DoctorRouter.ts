@@ -41,4 +41,26 @@ doctorRouter.post('/register', async (req, res) => {
 	}
 });
 
+// get a user based on his wallet address
+doctorRouter.get('/:walletAddress', async (req, res) => {
+	try {
+		const { walletAddress } = req.params;
+		const user = await DoctorModel.findOne({ walletAddress });
+		if (user === null) return res.send('user not found');
+		return res.send(user);
+	} catch (err) {
+		return res.send(err);
+	}
+});
+
+doctorRouter.get('/image/:imgName', async (req, res) => {
+	try {
+		const { imgName } = req.params;
+		const imagePath = path.join(__dirname, '../MyImages/doctors', imgName);
+		return res.sendFile(imagePath);
+	} catch (err) {
+		res.send(err);
+	}
+});
+
 export default doctorRouter;
