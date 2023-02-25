@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
 import { Button } from '@nextui-org/react';
+import { useStorageUpload } from '@thirdweb-dev/react';
+import extractIPFSCID from '@/utils/ExtractIPFSCID';
 
 const UploadNewDoc = () => {
 	const [url, setUrl] = useState('');
+	const [myFile, setMyFile] = useState<File | null>(null);
+
+	const { mutateAsync: upload } = useStorageUpload();
 
 	// Handle the `onChange` event of the `file` input
 	const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		if (!e.target.files) return;
 		const files = e.target.files;
+		setMyFile(files[0]);
 		files.length > 0 && setUrl(URL.createObjectURL(files[0]));
 	};
 
 	const uploadFile = async () => {
-		if (!url) {
+		if (!url || !myFile) {
 			alert('Please select a file to upload');
 			return;
 		}
 		console.log('uploading file');
+		const uploadUrl = await upload({
+			data: [myFile],
+			options: {
+				uploadWithGatewayUrl: true,
+				uploadWithoutDirectory: true,
+			},
+		});
+
+		console.log('upload url is: ', uploadUrl);
+		const myIPFSCID = extractIPFSCID(uploadUrl[0]);
+		console.log('my ipfs cid is: ', myIPFSCID);
 	};
 
 	return (

@@ -4,6 +4,11 @@ const nextConfig = {
 	images: {
 		domains: ['localhost'],
 	},
+	webpack: (config) => {
+		config.resolve.fallback = { fs: false };
+
+		return config;
+	},
 };
 
 module.exports = nextConfig;
