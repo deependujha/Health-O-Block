@@ -81,7 +81,7 @@ const RegisterNewUser = ({
 		// that MetaMask manages for the user.
 		signer = await provider.getSigner();
 
-		let message = 'Registering new user to the Ayushman Bharat app';
+		let message = 'Registering new user to the Health-O-Block app';
 
 		// Signing the message
 		let sig = await signer.signMessage(message);

@@ -1,5 +1,6 @@
 import React from 'react';
 import MainSubRightComponent from './SubRightComponents/MainSubRightComponent';
+import SimpleBar from 'simplebar-react';
 
 type MainSubRightComponentProps = {
 	curr:
@@ -20,7 +21,9 @@ const CitizenPageRightComponent = ({ curr }: MainSubRightComponentProps) => {
 					style={{ width: '70vw', borderWidth: '2px', borderColor: 'white' }}
 				>
 					<div className="" style={{ height: '94vh', overflow: 'hidden' }}>
-						<MainSubRightComponent curr={curr} />
+						<SimpleBar style={{ maxHeight: '90vh' }}>
+							<MainSubRightComponent curr={curr} />
+						</SimpleBar>
 					</div>
 				</div>
 			</div>

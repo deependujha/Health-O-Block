@@ -1,11 +1,11 @@
-import React from 'react'
+import React from 'react';
 
 const SuperUserAccess = () => {
-  return (
-      <div>
-          <div>This is superuser access page.</div>
-    </div>
-  )
-}
+	return (
+		<div>
+			<div className="text-center py-20">This is superuser access page.</div>
+		</div>
+	);
+};
 
-export default SuperUserAccess
+export default SuperUserAccess;

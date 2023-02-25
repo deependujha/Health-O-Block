@@ -74,7 +74,7 @@ const YourProfile = ({ walletAddress }: props) => {
 	}
 
 	return (
-		<SimpleBar style={{ maxHeight: 800 }}>
+		<div>
 			<div className="flex justify-center mt-20">
 				<Image
 					src={imageUrl}
@@ -93,7 +93,7 @@ const YourProfile = ({ walletAddress }: props) => {
 				{walletAddress}
 			</div>
 			<div>
-				<div className="text-2xl font-bold text-white my-3 mx-3">Nominees:</div>
+				<div className="text-2xl font-bold text-white my-5 mx-3">Nominees:</div>
 			</div>
 			<div className="flex overflow-hidden">
 				{nomineeData.map((nmn: any, idx: number) => {
@@ -107,7 +107,12 @@ const YourProfile = ({ walletAddress }: props) => {
 					);
 				})}
 			</div>
-		</SimpleBar>
+			{loading === false && nomineeData.length === 0 && (
+				<div className="text-xl font-bold font-mono text-white text-center py-6">
+					You have not added anyone as nominee.👨‍⚕️
+				</div>
+			)}
+		</div>
 	);
 };
 

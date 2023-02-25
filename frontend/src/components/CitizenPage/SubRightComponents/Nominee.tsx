@@ -14,7 +14,7 @@ const Nominee = () => {
 
 	const fetchThoseWhoAddedYouAsNominee = async () => {
 		axios
-			.get(`http://localhost:7000/nominee/${address}`)
+			.get(`http://localhost:7000/nominee/whoAddedMe/${address}`)
 			.then((res) => {
 				setUsers(res.data);
 				setLoading(false);
@@ -42,12 +42,18 @@ const Nominee = () => {
 	return (
 		<div className="text-center pt-28">
 			<div className="text-xl text-pink-600 font-mono font-bold">
-				These people have trusted you as their nominee.
+				These people have trusted you as their nominee. 🤝🤙
 			</div>
 			<div className="flex overflow-hidden justify-center">
 				{users.map((user: any, idx: number) => {
 					return <AddedYouAsNomineeCard key={idx} user={user} />;
 				})}
+
+				{loading === false && users.length === 0 && (
+					<div className="text-xl font-bold font-mono text-white py-40">
+						Seems like no one has added you as their nominee.👨‍⚕️
+					</div>
+				)}
 			</div>
 		</div>
 	);

@@ -63,17 +63,17 @@ const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 							<div className="flex justify-center my-6">
 								<Button
 									color="gradient"
-									style={{ width: '360px' }}
+									style={{ width: '20vw' }}
 									onPress={approveCitizens}
 								>
-									<div className="text-lg">Approve citizens</div>
+									<div className="text-lg">Approve patients</div>
 								</Button>
 							</div>
 							<div className="flex justify-center my-6  ">
 								<Button
 									color="gradient"
 									onPress={superUserAccess}
-									style={{ width: '360px' }}
+									style={{ width: '20vw' }}
 								>
 									<div className="text-lg">SuperUser access</div>
 								</Button>
@@ -82,7 +82,7 @@ const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 								<Button
 									color="gradient"
 									onPress={registerNewDoctor}
-									style={{ width: '360px' }}
+									style={{ width: '20vw' }}
 								>
 									<div className="text-lg">Register new Doctor</div>
 								</Button>
@@ -91,7 +91,7 @@ const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 						<div className="flex justify-center my-6">
 							<Button
 								color="error"
-								style={{ width: '360px' }}
+								style={{ width: '20vw' }}
 								onPress={logoutAsAdmin}
 							>
 								<div className="text-lg">logout</div>

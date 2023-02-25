@@ -73,7 +73,7 @@ const CitizenPageLeftComponent = ({
 							<div className="flex justify-center my-6">
 								<Button
 									color="gradient"
-									style={{ width: '360px' }}
+									style={{ width: '20vw' }}
 									onPress={uploadNewDocument}
 								>
 									<div className="text-lg">Upload new document</div>
@@ -83,7 +83,7 @@ const CitizenPageLeftComponent = ({
 								<Button
 									color="gradient"
 									onPress={yourDocs}
-									style={{ width: '360px' }}
+									style={{ width: '20vw' }}
 								>
 									<div className="text-lg">Your documents</div>
 								</Button>
@@ -92,7 +92,7 @@ const CitizenPageLeftComponent = ({
 								<Button
 									color="gradient"
 									onPress={addNominee}
-									style={{ width: '360px' }}
+									style={{ width: '20vw' }}
 								>
 									<div className="text-lg">Add new Nominee</div>
 								</Button>
@@ -101,7 +101,7 @@ const CitizenPageLeftComponent = ({
 								<Button
 									color="gradient"
 									onPress={nominee}
-									style={{ width: '360px' }}
+									style={{ width: '20vw' }}
 								>
 									<div className="text-lg">Nominees</div>
 								</Button>
@@ -110,7 +110,7 @@ const CitizenPageLeftComponent = ({
 								<Button
 									color="gradient"
 									onPress={yourProfile}
-									style={{ width: '360px' }}
+									style={{ width: '20vw' }}
 								>
 									<div className="text-lg">Profile</div>
 								</Button>
@@ -119,7 +119,7 @@ const CitizenPageLeftComponent = ({
 						<div className="flex justify-center my-6">
 							<Button
 								color="error"
-								style={{ width: '360px' }}
+								style={{ width: '20vw' }}
 								onPress={logoutAsAdmin}
 							>
 								<div className="text-lg">logout</div>

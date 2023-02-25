@@ -1,5 +1,6 @@
 import React from 'react';
 import MainSubRightComponent from './SubRightComponents.tsx/MainSubRightComponent';
+import SimpleBar from 'simplebar-react';
 
 type MainSubRightComponentProps = {
 	curr:
@@ -17,8 +18,10 @@ const AdminPageRightComponent = ({ curr }: MainSubRightComponentProps) => {
 					className="rounded-3xl my-auto"
 					style={{ width: '70vw', borderWidth: '2px', borderColor: 'white' }}
 				>
-					<div className="" style={{ height: '94vh', overflow: 'hidden' }}>
-						<MainSubRightComponent curr={curr} />
+					<div className="" style={{ height: '94vh' }}>
+						<SimpleBar style={{ maxHeight: '90vh' }}>
+							<MainSubRightComponent curr={curr} />
+						</SimpleBar>
 					</div>
 				</div>
 			</div>

@@ -80,4 +80,25 @@ nomineeRouter.get('/:user', async (req, res) => {
 	}
 });
 
+nomineeRouter.get('/whoAddedMe/:nominee', async (req, res) => {
+	try {
+		const { nominee } = req.params;
+		const myNominees = await NomineeModel.find({ nominee });
+
+		let users: any = [];
+		// loop over the nominees and get the user details
+		for (let i = 0; i < myNominees.length; i++) {
+			const myuser = await UserModel.findOne({
+				walletAddress: myNominees[i].user,
+			});
+			if (myuser) {
+				users.push(myuser);
+			}
+		}
+		res.send(users);
+	} catch (err) {
+		res.send(err);
+	}
+});
+
 export default nomineeRouter;
