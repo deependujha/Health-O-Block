@@ -93,7 +93,7 @@ const YourProfile = () => {
 			<div>
 				<div className="text-2xl font-bold text-white my-5 mx-3">Nominees:</div>
 			</div>
-			<div className="flex overflow-hidden">
+			<div className="flex overflow-hidden mx-6">
 				{nomineeData.map((nmn: any, idx: number) => {
 					return (
 						<NomineeCardComponent
