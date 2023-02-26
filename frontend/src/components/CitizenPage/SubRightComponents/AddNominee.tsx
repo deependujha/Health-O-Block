@@ -5,6 +5,7 @@ import HorizontalLine from '@/components/CustomComponents/HorizontalLine';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import SearchUserModal from '@/components/Modals/SearchUserModal';
+import AddingNomineeLoadingModal from '@/components/Modals/AddingNomineeLoadingModal';
 
 const initialData = {
 	name: '',
@@ -14,6 +15,7 @@ const initialData = {
 };
 const AddNominee = () => {
 	const [visibleModal, setVisibleModal] = useState(false);
+	const [addNomineeModalVisible, setAddNomineeModalVisible] = useState(false);
 	const [userData, setUserData] = useState(initialData);
 
 	const [inputVal, setInputVal] = useState('');
@@ -101,7 +103,9 @@ const AddNominee = () => {
 				visible={visibleModal}
 				setVisible={setVisibleModal}
 				userData={userData}
+				setAddNomineeModalVisible={setAddNomineeModalVisible}
 			/>
+			<AddingNomineeLoadingModal visible={addNomineeModalVisible} />
 		</div>
 	);
 };

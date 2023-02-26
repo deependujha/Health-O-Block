@@ -27,6 +27,7 @@ type Props = {
 		walletAddress: string;
 		imageUrl: string;
 	};
+	setAddNomineeModalVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 type NomineeStatus = 'already' | 'no' | 'loading';
@@ -35,6 +36,7 @@ export default function SearchUserModal({
 	visible,
 	setVisible,
 	userData,
+	setAddNomineeModalVisible,
 }: Props) {
 	const dispatch = useDispatch();
 	const { address } = useSelector((state: RootState) => state.citizen);
@@ -69,6 +71,7 @@ export default function SearchUserModal({
 	const addNominee = async () => {
 		// console.log('add nominee');
 		if (nomineeStatus === 'no') {
+			setAddNomineeModalVisible(true);
 			const myContract = await getContract();
 			if (!myContract) return;
 			myContract
@@ -85,6 +88,7 @@ export default function SearchUserModal({
 									nominee: userData.walletAddress,
 								})
 								.then((res) => {
+									setAddNomineeModalVisible(false);
 									setVisible(false);
 									console.log(res.data);
 									setNomineeStatus('already');
@@ -98,6 +102,7 @@ export default function SearchUserModal({
 								})
 								.catch((err) => {
 									setVisible(false);
+									setAddNomineeModalVisible(false);
 									console.log(err);
 									Swal.fire({
 										icon: 'error',
@@ -107,6 +112,7 @@ export default function SearchUserModal({
 								});
 						})
 						.catch((err: Error) => {
+							setAddNomineeModalVisible(false);
 							console.log(
 								'Printing error msg in overwritting text -1: ',
 								err.message
@@ -121,6 +127,7 @@ export default function SearchUserModal({
 				})
 
 				.catch((err: Error) => {
+					setAddNomineeModalVisible(false);
 					console.log(
 						'Printing error msg in transaction hash -2: ',
 						err.message
