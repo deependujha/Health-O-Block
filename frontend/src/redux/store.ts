@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import AdminPanelReducer from './slices/AdminPanelSlice';
 import CitizenReducer from './slices/CitizenSlice';
 import DoctorReducer from './slices/DoctorSlice';
+import ShowNomineePdfReducer from './slices/ShowNomineePdf';
 
 export const store = configureStore({
 	reducer: {
 		adminPanel: AdminPanelReducer,
 		citizen: CitizenReducer,
 		doctor: DoctorReducer,
+		showNominee: ShowNomineePdfReducer,
 	},
 });
 

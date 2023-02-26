@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import { useDispatch } from 'react-redux';
 import { setRefreshVal } from '@/redux/slices/CitizenSlice';
+import { getContract } from '@/utils/ContractViewFunctions';
 
 type RemoveNomineeConfirmationProps = {
 	removeNomineeModalVisible: boolean;
@@ -27,23 +28,60 @@ export default function RemoveNomineeConfirmation({
 
 	const removeNomineeFunction = async () => {
 		setLoadingRemove(true);
-		axios
-			.delete('http://localhost:7000/nominee', {
-				params: { user: address, nominee: walletAddress },
+		const myContract = await getContract();
+		if (!myContract) return;
+		myContract
+			.removeNominee(walletAddress)
+			.then((tx: any) => {
+				console.log('transaction occured : ', tx.hash);
+				return tx
+					.wait()
+					.then(() => {
+						console.log('nominee removed successfully');
+						axios
+							.delete('http://localhost:7000/nominee', {
+								params: { user: address, nominee: walletAddress },
+							})
+							.then((res) => {
+								console.log(res.data);
+								setLoadingRemove(false);
+								setRemoveNomineeModalVisible(false);
+								Swal.fire({
+									icon: 'success',
+									title: 'Success',
+									text: 'Nominee removed successfully',
+								});
+								dispatch(setRefreshVal());
+							})
+							.catch((err) => {
+								console.log(err);
+								setLoadingRemove(false);
+								setRemoveNomineeModalVisible(false);
+								Swal.fire({
+									icon: 'error',
+									title: 'Oops...',
+									text: 'Something went wrong!',
+								});
+							});
+					})
+					.catch((err: Error) => {
+						console.log(
+							'Printing error msg in overwritting text -1: ',
+							err.message
+						);
+						setLoadingRemove(false);
+						setRemoveNomineeModalVisible(false);
+						Swal.fire({
+							icon: 'error',
+							title: 'Oops...',
+							text: 'Something went wrong!',
+						});
+					});
 			})
-			.then((res) => {
-				console.log(res.data);
+			.catch((err: Error) => {
+				console.log('Printing error msg in transaction hash -2: ', err.message);
 				setLoadingRemove(false);
 				setRemoveNomineeModalVisible(false);
-				Swal.fire({
-					icon: 'success',
-					title: 'Success',
-					text: 'Nominee removed successfully',
-				});
-				dispatch(setRefreshVal());
-			})
-			.catch((err) => {
-				console.log(err);
 				Swal.fire({
 					icon: 'error',
 					title: 'Oops...',

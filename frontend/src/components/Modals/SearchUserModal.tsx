@@ -16,6 +16,7 @@ import { RootState } from '@/redux/store';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { setRefreshVal } from '@/redux/slices/CitizenSlice';
+import { getContract } from '@/utils/ContractViewFunctions';
 
 type Props = {
 	visible: boolean;
@@ -66,28 +67,65 @@ export default function SearchUserModal({
 	};
 
 	const addNominee = async () => {
-		console.log('add nominee');
+		// console.log('add nominee');
 		if (nomineeStatus === 'no') {
-			axios
-				.post('http://localhost:7000/nominee', {
-					user: address,
-					nominee: userData.walletAddress,
+			const myContract = await getContract();
+			if (!myContract) return;
+			myContract
+				.addNominee(userData.walletAddress)
+				.then((tx: any) => {
+					console.log('transaction occured : ', tx.hash);
+					return tx
+						.wait()
+						.then(() => {
+							console.log('nominee added successfully');
+							axios
+								.post('http://localhost:7000/nominee', {
+									user: address,
+									nominee: userData.walletAddress,
+								})
+								.then((res) => {
+									setVisible(false);
+									console.log(res.data);
+									setNomineeStatus('already');
+									Swal.fire({
+										icon: 'success',
+										title: 'Nominee added successfully',
+										showConfirmButton: false,
+										timer: 1500,
+									});
+									dispatch(setRefreshVal());
+								})
+								.catch((err) => {
+									setVisible(false);
+									console.log(err);
+									Swal.fire({
+										icon: 'error',
+										title: 'Oops...',
+										text: 'Something went wrong!',
+									});
+								});
+						})
+						.catch((err: Error) => {
+							console.log(
+								'Printing error msg in overwritting text -1: ',
+								err.message
+							);
+							setVisible(false);
+							Swal.fire({
+								icon: 'error',
+								title: 'Oops...',
+								text: 'Something went wrong!',
+							});
+						});
 				})
-				.then((res) => {
+
+				.catch((err: Error) => {
+					console.log(
+						'Printing error msg in transaction hash -2: ',
+						err.message
+					);
 					setVisible(false);
-					console.log(res.data);
-					setNomineeStatus('already');
-					Swal.fire({
-						icon: 'success',
-						title: 'Nominee added successfully',
-						showConfirmButton: false,
-						timer: 1500,
-					});
-					dispatch(setRefreshVal());
-				})
-				.catch((err) => {
-					setVisible(false);
-					console.log(err);
 					Swal.fire({
 						icon: 'error',
 						title: 'Oops...',

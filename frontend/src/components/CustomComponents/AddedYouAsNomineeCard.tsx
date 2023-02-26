@@ -3,11 +3,21 @@ import { Card, Grid, Text, Button, Row } from '@nextui-org/react';
 import Image from 'next/image';
 import RemoveNomineeConfirmation from '../Modals/RemoveNomineeConfirmation';
 import { imageUrlForBackend } from '@/utils/ImageUrlForBackend';
+import { useDispatch } from 'react-redux';
+import { setShowNomineePdf } from '@/redux/slices/ShowNomineePdf';
 
 const AddedYouAsNomineeCard = ({ user }: any) => {
-	const myImgUrl = imageUrlForBackend(user.imageUrl,false);
+	const dispatch = useDispatch();
+	const myImgUrl = imageUrlForBackend(user.imageUrl, false);
 	const viewDocsBtn = () => {
-		console.log('clicked on view docs button');
+		console.log('user wallet address is:', user.walletAddress);
+		dispatch(
+			setShowNomineePdf({
+				showNomineePdf: true,
+				userName: user.name,
+				userAddress: user.walletAddress,
+			})
+		);
 	};
 
 	return (

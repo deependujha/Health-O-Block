@@ -7,6 +7,7 @@ import YourDocs from './YourDocs';
 import YourProfile from './YourProfile';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
+import NomineeDocs from '@/components/CustomComponents/NomineeDocs';
 
 type MainSubRightComponentProps = {
 	curr:
@@ -19,7 +20,10 @@ type MainSubRightComponentProps = {
 };
 
 const MainSubRightComponent = ({ curr }: MainSubRightComponentProps) => {
-	const {address} = useSelector((state: RootState) => state.citizen);
+	const { address } = useSelector((state: RootState) => state.citizen);
+	const { showNomineePdf } = useSelector(
+		(state: RootState) => state.showNominee
+	);
 	// write all conditions here
 	if (curr === 'upload_new_docs') {
 		return (
@@ -40,15 +44,11 @@ const MainSubRightComponent = ({ curr }: MainSubRightComponentProps) => {
 			</div>
 		);
 	} else if (curr === 'nominee') {
-		return (
-			<div>
-				<Nominee />
-			</div>
-		);
+		return <div>{showNomineePdf ? <NomineeDocs /> : <Nominee />}</div>;
 	} else if (curr === 'profile') {
 		return (
 			<div>
-				<YourProfile walletAddress={address} />
+				<YourProfile />
 			</div>
 		);
 	} else if (curr === 'welcome') {

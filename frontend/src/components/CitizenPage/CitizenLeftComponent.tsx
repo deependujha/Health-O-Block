@@ -6,6 +6,7 @@ import { setAllowed } from '@/redux/slices/AdminPanelSlice';
 import { useRouter } from 'next/router';
 import AyushmanBharatLogo from '../CustomComponents/AyushmanBharatLogo';
 import LogoutConfirmation from '../Modals/LogoutConfirmation';
+import { setShowNomineePdf } from '@/redux/slices/ShowNomineePdf';
 
 type currPossibleValues =
 	| 'upload_new_docs'
@@ -26,26 +27,41 @@ const CitizenPageLeftComponent = ({
 	const [logoutConfirmationModalVisible, setLogoutConfirmationModalVisible] =
 		useState(false);
 
+	const makeNomineeNormal = () => {
+		myDispatch(
+			setShowNomineePdf({
+				showNomineePdf: false,
+				walletAddress: '',
+				userName: '',
+			})
+		);
+	};
 	const logoutAsAdmin = async () => {
 		setLogoutConfirmationModalVisible(true);
+		makeNomineeNormal();
 	};
 
 	const uploadNewDocument = async () => {
 		setCurr('upload_new_docs');
+		makeNomineeNormal();
 	};
 
 	const yourDocs = async () => {
 		setCurr('your_docs');
+		makeNomineeNormal();
 	};
 
 	const addNominee = async () => {
 		setCurr('add_nominee');
+		makeNomineeNormal();
 	};
 	const nominee = async () => {
 		setCurr('nominee');
+		makeNomineeNormal();
 	};
 	const yourProfile = async () => {
 		setCurr('profile');
+		makeNomineeNormal();
 	};
 
 	return (
