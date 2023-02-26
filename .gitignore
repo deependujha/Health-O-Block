@@ -43,3 +43,18 @@ next-env.d.ts
 # .env for backend
 .env
 backend/dist
+
+
+# ========================================
+## smart-contract
+node_modules
+.env
+coverage
+coverage.json
+typechain
+typechain-types
+
+# Hardhat files
+cache
+artifacts
+
