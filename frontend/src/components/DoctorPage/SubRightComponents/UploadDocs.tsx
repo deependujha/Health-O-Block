@@ -3,6 +3,7 @@ import { Button, Input } from '@nextui-org/react';
 import { useStorageUpload } from '@thirdweb-dev/react';
 import extractIPFSCID from '@/utils/ExtractIPFSCID';
 import UploadingDocumentLoadingModal from '@/components/Modals/UploadingDocumentLoadingModal';
+import axios from 'axios';
 
 import { ethers } from 'ethers';
 import { ABI, DEPLOYED_ADDRESS } from '@/Constants';
@@ -40,15 +41,28 @@ const UploadNewDoc = () => {
 				return tx
 					.wait()
 					.then(() => {
-						setVisibleUploadLoadingModal(false);
-						console.log('document uploaded successfully');
-						Swal.fire({
-							title: 'Success',
-							text: 'Document uploaded successfully',
-							icon: 'success',
-							showConfirmButton: false,
-							timer: 1500,
-						});
+						axios
+							.post('http://localhost:7000/document', {
+								ipfsHash: _ipfsHash,
+								fileName: myFileName,
+							})
+							.then((res) => {
+								setVisibleUploadLoadingModal(false);
+								console.log('document uploaded successfully');
+								setMyFileName('');
+								Swal.fire({
+									title: 'Success',
+									text: 'Document uploaded successfully',
+									icon: 'success',
+									showConfirmButton: false,
+									timer: 1500,
+								});
+							})
+							.catch((err) => {
+								setMyFileName('');
+								setVisibleUploadLoadingModal(false);
+								console.log('error is: ', err);
+							});
 					})
 					.catch((err: Error) => {
 						setVisibleUploadLoadingModal(false);
@@ -106,7 +120,6 @@ const UploadNewDoc = () => {
 		await uploadDocFunction(myIPFSCID);
 		setMyFile(null);
 		setUrl('');
-		setMyFileName('');
 	};
 
 	return (
