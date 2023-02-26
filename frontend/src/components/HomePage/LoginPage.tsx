@@ -38,7 +38,14 @@ const LoginPage = () => {
 			// Connect to the MetaMask EIP-1193 object. This is a standard
 			// protocol that allows Ethers access to make all read-only
 			// requests through MetaMask.
-			provider = new ethers.BrowserProvider(window.ethereum);
+			provider = new ethers.providers.Web3Provider(window.ethereum);
+			const { chainId } = await provider.getNetwork();
+			if (chainId !== 80001) {
+				alert('Please connect to Mumbai Testnet');
+				return;
+			}
+			// MetaMask requires requesting permission to connect users accounts
+			await provider.send('eth_requestAccounts', []);
 
 			// It also provides an opportunity to request access to write
 			// operations, which will be performed by the private key
@@ -50,7 +57,9 @@ const LoginPage = () => {
 			let sig = await signer.signMessage(message);
 
 			// Validating a message; notice the address matches the signer
-			let meow = ethers.verifyMessage(message, sig);
+			// let meow = ethers.verifyMessage(message, sig);
+			let meow = await signer.getAddress();
+
 			axios
 				.get(`http://localhost:7000/user/${meow}`)
 				.then((res) => {
@@ -102,11 +111,17 @@ const LoginPage = () => {
 			// Connect to the MetaMask EIP-1193 object. This is a standard
 			// protocol that allows Ethers access to make all read-only
 			// requests through MetaMask.
-			provider = new ethers.BrowserProvider(window.ethereum);
+			provider = new ethers.providers.Web3Provider(window.ethereum);
 
-			// It also provides an opportunity to request access to write
-			// operations, which will be performed by the private key
-			// that MetaMask manages for the user.
+			const { chainId } = await provider.getNetwork();
+			if (chainId !== 80001) {
+				alert('Please connect to Mumbai Testnet');
+				return;
+			}
+
+			// MetaMask requires requesting permission to connect users accounts
+			await provider.send('eth_requestAccounts', []);
+
 			signer = await provider.getSigner();
 			let message = 'login to the app. (Doctor)';
 
@@ -114,7 +129,9 @@ const LoginPage = () => {
 			let sig = await signer.signMessage(message);
 
 			// Validating a message; notice the address matches the signer
-			let meow = ethers.verifyMessage(message, sig);
+			// let meow = ethers.verifyMessage(message, sig);
+			let meow = await signer.getAddress();
+
 			axios
 				.get(`http://localhost:7000/doctor/${meow}`)
 				.then((res) => {
