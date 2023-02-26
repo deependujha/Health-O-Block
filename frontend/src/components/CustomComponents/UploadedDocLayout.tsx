@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Card, Divider } from '@nextui-org/react';
 import Image from 'next/image';
+import ShareDocModal from '../Modals/ShareDocModal';
 
 type PdfType = {
 	myFileName: string;
 	ipfsHash: string;
+	index: number;
 };
-const UploadedDocLayout = ({ myFileName, ipfsHash }: PdfType) => {
+const UploadedDocLayout = ({ myFileName, ipfsHash, index }: PdfType) => {
+	const [visible, setVisible] = useState(false);
 	// console.log('myipfsHash', ipfsHash);
 	const shareDoc = () => {
-		console.log('clicked on share doc with ipfsHash: ', ipfsHash);
+		// console.log('clicked on share doc with ipfsHash: ', ipfsHash);
+		// console.log('index is: ', index);
+		setVisible(true);
 	};
 
 	return (
@@ -42,6 +47,7 @@ const UploadedDocLayout = ({ myFileName, ipfsHash }: PdfType) => {
 						</Button>
 					</div>
 				</div>
+				<ShareDocModal visible={visible} setVisible={setVisible} />
 			</Card.Body>
 		</Card>
 	);

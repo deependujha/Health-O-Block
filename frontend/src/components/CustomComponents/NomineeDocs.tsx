@@ -94,6 +94,7 @@ const NomineeDocs = () => {
 							<UploadedDocLayout
 								myFileName={doc.myFileName}
 								ipfsHash={doc.ipfsHash}
+								index={index}
 							/>
 						</div>
 					);
