@@ -7,8 +7,16 @@ type PdfType = {
 	myFileName: string;
 	ipfsHash: string;
 	index: number;
+	user: string;
+	asNominee: boolean;
 };
-const UploadedDocLayout = ({ myFileName, ipfsHash, index }: PdfType) => {
+const UploadedDocLayout = ({
+	myFileName,
+	ipfsHash,
+	index,
+	user,
+	asNominee,
+}: PdfType) => {
 	const [visible, setVisible] = useState(false);
 	// console.log('myipfsHash', ipfsHash);
 	const shareDoc = () => {
@@ -47,7 +55,13 @@ const UploadedDocLayout = ({ myFileName, ipfsHash, index }: PdfType) => {
 						</Button>
 					</div>
 				</div>
-				<ShareDocModal visible={visible} setVisible={setVisible} />
+				<ShareDocModal
+					visible={visible}
+					setVisible={setVisible}
+					index={index}
+					user={user}
+					asNominee={asNominee}
+				/>
 			</Card.Body>
 		</Card>
 	);

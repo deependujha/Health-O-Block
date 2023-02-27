@@ -95,6 +95,8 @@ const NomineeDocs = () => {
 								myFileName={doc.myFileName}
 								ipfsHash={doc.ipfsHash}
 								index={index}
+								user={userAddress}
+								asNominee={true}
 							/>
 						</div>
 					);

@@ -12,23 +12,36 @@ import {
 import Image from 'next/image';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { getContract } from '@/utils/ContractViewFunctions';
+import { Transaction } from 'ethers';
 
 type Props = {
 	visible: boolean;
 	setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+	user: string;
+	index: number;
+	asNominee: boolean;
 };
 
-export default function ShareDocModal({ visible, setVisible }: Props) {
+export default function ShareDocModal({
+	visible,
+	setVisible,
+	user,
+	index,
+	asNominee,
+}: Props) {
 	const [drName, setDrName] = useState('');
 	const [drEmail, setDrEmail] = useState('');
 	const [drImg, setDrImg] = useState('');
 	const [loading, setLoading] = useState(false);
 	const [shareDocStatus, setShareDocStatus] = useState(false);
 	const [addr, setAddr] = useState('');
+	const [noDoctorFound, setNoDoctorFound] = useState(false);
+	const [sharingDoc, setSharingDoc] = useState(false);
 
 	const closeHandler = () => {
 		setVisible(false);
-		console.log('closed');
+		// console.log('closed');
 	};
 
 	const searchDoctor = async () => {
@@ -38,12 +51,9 @@ export default function ShareDocModal({ visible, setVisible }: Props) {
 			.then((res) => {
 				setLoading(false);
 				if (res.data === 'user not found') {
-					Swal.fire({
-						icon: 'error',
-						title: 'No user found!',
-						text: 'Seems like the wallet address is not registered.',
-					});
+					setNoDoctorFound(true);
 				} else {
+					setNoDoctorFound(false);
 					const { name, email, imageUrl } = res.data;
 					setDrName(name);
 					setDrEmail(email);
@@ -62,7 +72,151 @@ export default function ShareDocModal({ visible, setVisible }: Props) {
 			});
 	};
 
-	const shareTheDoc = async () => {};
+	const shareTheDocAsNominee = async () => {
+		const contract = await getContract();
+		if (!contract) return;
+		contract
+			.shareHealthDocWithDoctorAsNominee(addr, user, index)
+			.then((tx: any) => {
+				console.log('transaction occured : ', tx.hash);
+				return tx
+					.wait()
+					.then(() => {
+						console.log('Doc sharing successfully');
+						axios
+							.post(`http://localhost:7000/document/share`, {
+								user,
+								doctor: addr,
+								index,
+							})
+							.then((res) => {
+								setVisible(false);
+								setSharingDoc(false);
+								Swal.fire({
+									icon: 'success',
+									title: 'Success',
+									text: 'Doc sharing successful',
+									timer: 1500,
+									showConfirmButton: false,
+								});
+							})
+							.catch((err) => {
+								console.log(err);
+								setVisible(false);
+								setSharingDoc(false);
+								Swal.fire({
+									icon: 'error',
+									title: 'Error!',
+									text: 'Error occurred while sharing the Doc',
+									timer: 1500,
+									showConfirmButton: false,
+								});
+							});
+					})
+					.catch((err: Error) => {
+						console.log(
+							'Printing error msg in overwritting text -1: ',
+							err.message
+						);
+						setVisible(false);
+						setSharingDoc(false);
+						Swal.fire({
+							icon: 'error',
+							title: 'Error!',
+							text: 'Error occurred while sharing the Doc',
+							timer: 1500,
+							showConfirmButton: false,
+						});
+					});
+			})
+			.catch((err: Error) => {
+				console.log('Printing error msg in transaction hash -2: ', err.message);
+				setVisible(false);
+				setSharingDoc(false);
+				Swal.fire({
+					icon: 'error',
+					title: 'Error!',
+					text: 'An unexpected error occurred while sharing the Doc. Please try again later',
+				});
+			});
+	};
+	const shareTheDocAsUser = async () => {
+		const contract = await getContract();
+		if (!contract) return;
+		contract
+			.shareHealthDocWithDoctor(addr, index)
+			.then((tx: any) => {
+				console.log('transaction occured : ', tx.hash);
+				return tx
+					.wait()
+					.then(() => {
+						console.log('Doc sharing successfully');
+						axios
+							.post(`http://localhost:7000/document/share`, {
+								user,
+								doctor: addr,
+								index,
+							})
+							.then((res) => {
+								setVisible(false);
+								setSharingDoc(false);
+								Swal.fire({
+									icon: 'success',
+									title: 'Success',
+									text: 'Doc sharing successful',
+									timer: 1500,
+									showConfirmButton: false,
+								});
+							})
+							.catch((err) => {
+								console.log(err);
+								setVisible(false);
+								setSharingDoc(false);
+								Swal.fire({
+									icon: 'error',
+									title: 'Error!',
+									text: 'Error occurred while sharing the Doc',
+									timer: 1500,
+									showConfirmButton: false,
+								});
+							});
+					})
+					.catch((err: Error) => {
+						setVisible(false);
+						setSharingDoc(false);
+						console.log(
+							'Printing error msg in overwritting text -1: ',
+							err.message
+						);
+						Swal.fire({
+							icon: 'error',
+							title: 'Error!',
+							text: 'Error occurred while sharing the Doc',
+							timer: 1500,
+							showConfirmButton: false,
+						});
+					});
+			})
+			.catch((err: Error) => {
+				setSharingDoc(false);
+				setVisible(false);
+				console.log('Printing error msg in transaction hash -2: ', err.message);
+				Swal.fire({
+					icon: 'error',
+					title: 'Error!',
+					text: 'An unexpected error occurred while sharing the Doc. Please try again later',
+				});
+			});
+	};
+
+	const shareTheDoc = async () => {
+		setSharingDoc(true);
+		if (asNominee) {
+			shareTheDocAsNominee();
+		} else {
+			shareTheDocAsUser();
+		}
+	};
 
 	return (
 		<div>
@@ -98,6 +252,11 @@ export default function ShareDocModal({ visible, setVisible }: Props) {
 							<Loading />
 						</div>
 					)}
+					{!loading && noDoctorFound && (
+						<div className="text-lg my-3 text-red-500 font-bold  text-center">
+							No doctor found with this address
+						</div>
+					)}
 					{!loading && drName && (
 						<div>
 							<div className="flex justify-center">
@@ -127,7 +286,13 @@ export default function ShareDocModal({ visible, setVisible }: Props) {
 					</Button>
 					{shareDocStatus && (
 						<Button auto onPress={shareTheDoc} color="secondary">
-							Share Doc
+							{sharingDoc ? (
+								<div className="flex justify-center">
+									<Loading color={'white'} />
+								</div>
+							) : (
+								<div>Share Doc</div>
+							)}
 						</Button>
 					)}
 				</Modal.Footer>

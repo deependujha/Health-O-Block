@@ -3,6 +3,7 @@ import { getContract } from '@/utils/ContractViewFunctions';
 import UploadedDocLayout from '@/components/CustomComponents/UploadedDocLayout';
 import { Loading } from '@nextui-org/react';
 import axios from 'axios';
+import { getSigner } from './UploadNewDoc';
 
 type PdfType = {
 	myFileName: string;
@@ -12,6 +13,7 @@ type PdfType = {
 const YourDocs = () => {
 	const [loading, setLoading] = useState(false);
 	const [docs, setDocs] = useState<PdfType[]>([]);
+	const [userAddress, setUserAddress] = useState<string>('');
 
 	const getFileName = async (ipfsHash: string) => {
 		const result = await axios.get(
@@ -24,8 +26,10 @@ const YourDocs = () => {
 
 	const getAllMyDocs = async () => {
 		setLoading(true);
+		const signer = await getSigner()
 		const contract = await getContract();
 		if (!contract) return;
+		if(!signer) return;
 		contract
 			.getAllMyDocs()
 			.then(async (res: string[]) => {
@@ -37,6 +41,8 @@ const YourDocs = () => {
 				}
 				setDocs(myData);
 				setLoading(false);
+				const addr = await signer.getAddress();
+				setUserAddress(addr);
 				// console.log('my res is: ', res);
 			})
 			.catch((err: Error) => {
@@ -81,6 +87,8 @@ const YourDocs = () => {
 								myFileName={doc.myFileName}
 								ipfsHash={doc.ipfsHash}
 								index={index}
+								user={userAddress}
+								asNominee={false}
 							/>
 						</div>
 					);
