@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Card, Divider } from '@nextui-org/react';
 import Image from 'next/image';
 import ShareDocModal from '../Modals/ShareDocModal';
+import { useRouter } from 'next/router';
 
 type PdfType = {
 	myFileName: string;
@@ -17,6 +18,8 @@ const UploadedDocLayout = ({
 	user,
 	asNominee,
 }: PdfType) => {
+	const router = useRouter();
+	const isDoctor = router.pathname === '/doctor';
 	const [visible, setVisible] = useState(false);
 	// console.log('myipfsHash', ipfsHash);
 	const shareDoc = () => {
@@ -47,13 +50,17 @@ const UploadedDocLayout = ({
 						</div>
 						<div className="text-center overflow-hidden">{myFileName}</div>
 						<div className="my-2"></div>
-						<Divider />
 					</a>
-					<div className="flex justify-center my-2">
-						<Button color="secondary" auto onPress={shareDoc}>
-							share
-						</Button>
-					</div>
+					{!isDoctor && (
+						<div>
+							<Divider />
+							<div className="flex justify-center my-2">
+								<Button color="secondary" auto onPress={shareDoc}>
+									share
+								</Button>
+							</div>
+						</div>
+					)}
 				</div>
 				<ShareDocModal
 					visible={visible}

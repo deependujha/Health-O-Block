@@ -69,7 +69,7 @@ const LoginPage = () => {
 							title: 'Error!',
 							text: 'User not found',
 							icon: 'error',
-							confirmButtonText: 'Cool',
+							confirmButtonText: 'Ok',
 						});
 					} else {
 						dispatch(setAddressCitizen(meow));
@@ -82,7 +82,7 @@ const LoginPage = () => {
 						title: 'Error!',
 						text: 'User not found',
 						icon: 'error',
-						confirmButtonText: 'Cool',
+						confirmButtonText: 'Ok',
 					});
 				});
 		} catch (error) {
@@ -141,7 +141,7 @@ const LoginPage = () => {
 							title: 'Error!',
 							text: 'User not found',
 							icon: 'error',
-							confirmButtonText: 'Cool',
+							confirmButtonText: 'Ok',
 						});
 					} else {
 						dispatch(setAddressDoctor(meow));
@@ -154,7 +154,7 @@ const LoginPage = () => {
 						title: 'Error!',
 						text: 'User not found',
 						icon: 'error',
-						confirmButtonText: 'Cool',
+						confirmButtonText: 'Ok',
 					});
 				});
 		} catch (error) {

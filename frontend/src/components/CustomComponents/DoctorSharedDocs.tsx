@@ -1,19 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { use, useEffect, useState } from 'react';
 import { getContract } from '@/utils/ContractViewFunctions';
 import UploadedDocLayout from '@/components/CustomComponents/UploadedDocLayout';
 import { Loading } from '@nextui-org/react';
 import axios from 'axios';
-import { getSigner } from './UploadDocs';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/redux/store';
+import { getSigner } from '@/utils/SmartContractFunctions';
 
 type PdfType = {
 	myFileName: string;
 	ipfsHash: string;
 };
 
-const YourDocs = () => {
+type Props = {
+	userName: string;
+	addr: string;
+};
+
+const NomineeDocs = () => {
+	const { userAddress, userName } = useSelector(
+		(state: RootState) => state.showNominee
+	);
 	const [loading, setLoading] = useState(false);
 	const [docs, setDocs] = useState<PdfType[]>([]);
-	const [doctorAddr, setDoctorAddr] = useState('');
+
+	// console.log('useraddress is: ', userAddress);
+	// console.log('username is: ', userName);
 
 	const getFileName = async (ipfsHash: string) => {
 		const result = await axios.get(
@@ -26,27 +38,33 @@ const YourDocs = () => {
 
 	const getAllMyDocs = async () => {
 		setLoading(true);
-		const contract = await getContract();
-		if (!contract) return;
 		const signer = await getSigner();
 		if (!signer) return;
-		const addr = await signer.getAddress();
-		setDoctorAddr(addr);
-		contract
-			.getAllMyDocs()
-			.then(async (res: string[]) => {
-				let myData = [] as PdfType[];
-				for (let i = 0; i < res.length; i++) {
-					const fName = await getFileName(res[i]);
+		const doctorAddress = await signer.getAddress();
+
+		axios
+			.get(
+				`http://localhost:7000/document/share/${doctorAddress}/${userAddress}`
+			)
+			.then(async (res) => {
+				const contract = await getContract();
+				if (!contract) return;
+				let myData: any = [];
+				for (let i = 0; i < res.data.length; i++) {
+					const myIpfsHash = await contract.getDocSharedByCitizen(
+						userAddress,
+						res.data[i].index
+					);
+					const fName = await getFileName(myIpfsHash);
 					// console.log('my filename is: ', fName);
-					myData.push({ myFileName: fName, ipfsHash: res[i] });
+					myData.push({ myFileName: fName, ipfsHash: myIpfsHash });
 				}
 				setDocs(myData);
 				setLoading(false);
-				// console.log('my res is: ', res);
 			})
-			.catch((err: Error) => {
+			.catch((err) => {
 				setLoading(false);
+				console.log('fetching resulted into error');
 				console.log(err);
 			});
 	};
@@ -56,12 +74,12 @@ const YourDocs = () => {
 
 	useEffect(() => {
 		fetchAllMyDocs();
-	}, []);
+	}, [userAddress]);
 
 	return (
 		<div className="pt-20">
 			<div className="text-center text-xl font-mono text-pink-500 font-bold mb-4">
-				your Documents
+				Documents of '{userName}'
 			</div>
 			<hr />
 			{loading && (
@@ -76,7 +94,7 @@ const YourDocs = () => {
 			)}
 			{!loading && docs.length === 0 && (
 				<div className="text-center font-mono text-xl text-pink-500 py-72">
-					Seems like you haven't uploaded any documents yet.
+					Seems like they haven't uploaded any documents yet.
 				</div>
 			)}
 			<div className="grid grid-cols-5 gap-5 py-5">
@@ -87,8 +105,8 @@ const YourDocs = () => {
 								myFileName={doc.myFileName}
 								ipfsHash={doc.ipfsHash}
 								index={index}
-								asNominee={false}
-								user={doctorAddr}
+								user={userAddress}
+								asNominee={true}
 							/>
 						</div>
 					);
@@ -98,4 +116,4 @@ const YourDocs = () => {
 	);
 };
 
-export default YourDocs;
+export default NomineeDocs;

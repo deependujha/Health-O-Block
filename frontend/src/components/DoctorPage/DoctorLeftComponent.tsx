@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import AyushmanBharatLogo from '../CustomComponents/AyushmanBharatLogo';
 import LogoutConfirmation from '../Modals/LogoutConfirmation';
+import { setShowNomineePdf } from '@/redux/slices/ShowNomineePdf';
 
 type currPossibleValues =
 	| 'shared_docs'
@@ -22,24 +23,38 @@ const DoctorLeftComponent = ({ setCurr }: DoctorPageLeftComponentProps) => {
 	const [logoutConfirmationModalVisible, setLogoutConfirmationModalVisible] =
 		useState(false);
 
+	const makeNomineeNormal = () => {
+		myDispatch(
+			setShowNomineePdf({
+				showNomineePdf: false,
+				walletAddress: '',
+				userName: '',
+			})
+		);
+	};
 	const logoutAsAdmin = async () => {
 		setLogoutConfirmationModalVisible(true);
+		makeNomineeNormal();
 	};
 
 	const sharedDocument = async () => {
 		setCurr('shared_docs');
+		makeNomineeNormal();
 	};
 
 	const uploadNewDocument = async () => {
 		setCurr('upload_new_docs');
+		makeNomineeNormal();
 	};
 
 	const yourDocs = async () => {
 		setCurr('your_docs');
+		makeNomineeNormal();
 	};
 
 	const yourProfile = async () => {
 		setCurr('profile');
+		makeNomineeNormal();
 	};
 
 	return (
