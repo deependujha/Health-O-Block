@@ -11,8 +11,46 @@ const DocumentSchemaDetails = new Schema({
 	},
 });
 
+const SharedDocumentSchema = new Schema({
+	user: {
+		type: String,
+		required: true,
+	},
+	doctor: {
+		type: String,
+		required: true,
+	},
+	index: {
+		type: Number,
+		required: true,
+	},
+});
+
+const UserSharedDocumentWithDoctorSchema = new Schema({
+	user: {
+		type: String,
+		required: true,
+	},
+	doctor: {
+		type: String,
+		required: true,
+	},
+});
+
 const DocumentModelDetails = model(
 	'DocumentModelDetails',
 	DocumentSchemaDetails
 );
-export { DocumentModelDetails };
+
+const SharedDocumentModel = model('SharedDocumentModel', SharedDocumentSchema);
+
+const UserSharedDocumentWithDoctorModel = model(
+	'UserSharedDocumentWithDoctorModel',
+	UserSharedDocumentWithDoctorSchema
+);
+
+export {
+	DocumentModelDetails,
+	SharedDocumentModel,
+	UserSharedDocumentWithDoctorModel,
+};
