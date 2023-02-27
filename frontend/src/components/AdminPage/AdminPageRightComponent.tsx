@@ -3,11 +3,7 @@ import MainSubRightComponent from './SubRightComponents.tsx/MainSubRightComponen
 import SimpleBar from 'simplebar-react';
 
 type MainSubRightComponentProps = {
-	curr:
-		| 'approve_citizens'
-		| 'register_new_doctor'
-		| 'superuser_access'
-		| 'welcome';
+	curr: 'search_user' | 'register_new_doctor' | 'search_doctor' | 'welcome';
 };
 
 const AdminPageRightComponent = ({ curr }: MainSubRightComponentProps) => {

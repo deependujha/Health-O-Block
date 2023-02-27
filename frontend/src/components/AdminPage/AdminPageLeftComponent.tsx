@@ -8,9 +8,9 @@ import AyushmanBharatLogo from '../CustomComponents/AyushmanBharatLogo';
 import LogoutConfirmation from '../Modals/LogoutConfirmation';
 
 type currPossibleValues =
-	| 'approve_citizens'
+	| 'search_user'
 	| 'register_new_doctor'
-	| 'superuser_access'
+	| 'search_doctor'
 	| 'welcome';
 
 type AdminPageLeftComponentProps = {
@@ -26,16 +26,16 @@ const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 		setLogoutConfirmationModalVisible(true);
 	};
 
-	const approveCitizens = async () => {
-		setCurr('approve_citizens');
+	const searchUser = async () => {
+		setCurr('search_user');
 	};
 
 	const registerNewDoctor = async () => {
 		setCurr('register_new_doctor');
 	};
 
-	const superUserAccess = async () => {
-		setCurr('superuser_access');
+	const searchDoctor = async () => {
+		setCurr('search_doctor');
 	};
 
 	return (
@@ -64,18 +64,18 @@ const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 								<Button
 									color="gradient"
 									style={{ width: '20vw' }}
-									onPress={approveCitizens}
+									onPress={searchUser}
 								>
-									<div className="text-lg">Approve patients</div>
+									<div className="text-lg">Search user</div>
 								</Button>
 							</div>
 							<div className="flex justify-center my-6  ">
 								<Button
 									color="gradient"
-									onPress={superUserAccess}
+									onPress={searchDoctor}
 									style={{ width: '20vw' }}
 								>
-									<div className="text-lg">SuperUser access</div>
+									<div className="text-lg">Search Doctor</div>
 								</Button>
 							</div>
 							<div className="flex justify-center my-6">

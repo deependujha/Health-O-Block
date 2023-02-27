@@ -1,20 +1,16 @@
 import React from 'react';
-import ApproveCitizens from './ApproveCitizens';
+import ApproveCitizens from './SearchUser';
 import RegisterNewDoctor from './RegisterNewDoctor';
-import SuperUserAccess from './SuperUserAccess';
+import SuperUserAccess from './SearchDoctor';
 import WelcomePage from './WelcomePage';
 
 type MainSubRightComponentProps = {
-	curr:
-		| 'approve_citizens'
-		| 'register_new_doctor'
-		| 'superuser_access'
-		| 'welcome';
+	curr: 'search_user' | 'register_new_doctor' | 'search_doctor' | 'welcome';
 };
 
 const MainSubRightComponent = ({ curr }: MainSubRightComponentProps) => {
 	// write all conditions here
-	if (curr === 'approve_citizens') {
+	if (curr === 'search_user') {
 		return (
 			<div>
 				<ApproveCitizens />
@@ -26,7 +22,7 @@ const MainSubRightComponent = ({ curr }: MainSubRightComponentProps) => {
 				<RegisterNewDoctor />
 			</div>
 		);
-	} else if (curr === 'superuser_access') {
+	} else if (curr === 'search_doctor') {
 		return (
 			<div>
 				<SuperUserAccess />
