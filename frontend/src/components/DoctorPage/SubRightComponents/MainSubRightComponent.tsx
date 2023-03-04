@@ -7,9 +7,16 @@ import YourProfile from './YourProfile';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/redux/store';
 import DoctorSharedDocs from '@/components/CustomComponents/DoctorSharedDocs';
+import AcceptRequest from './AcceptRequest';
 
 type MainSubRightComponentProps = {
-	curr: 'shared_docs' | 'your_docs' | 'upload_new_docs' | 'profile' | 'welcome';
+	curr:
+		| 'shared_docs'
+		| 'your_docs'
+		| 'upload_new_docs'
+		| 'profile'
+		| 'welcome'
+		| 'accept_request';
 };
 
 const MainSubRightComponent = ({ curr }: MainSubRightComponentProps) => {
@@ -36,6 +43,14 @@ const MainSubRightComponent = ({ curr }: MainSubRightComponentProps) => {
 		return (
 			<div>
 				<YourDocs />
+			</div>
+		);
+	}
+
+	if (curr === 'accept_request') {
+		return (
+			<div>
+				<AcceptRequest />
 			</div>
 		);
 	}

@@ -11,6 +11,7 @@ type currPossibleValues =
 	| 'your_docs'
 	| 'upload_new_docs'
 	| 'profile'
+	| 'accept_request'
 	| 'welcome';
 
 type DoctorPageLeftComponentProps = {
@@ -35,6 +36,11 @@ const DoctorLeftComponent = ({ setCurr }: DoctorPageLeftComponentProps) => {
 	const logoutAsAdmin = async () => {
 		setLogoutConfirmationModalVisible(true);
 		makeNomineeNormal();
+	};
+
+	const acceptReq = async () => {
+		makeNomineeNormal();
+		setCurr('accept_request');
 	};
 
 	const sharedDocument = async () => {
@@ -107,6 +113,15 @@ const DoctorLeftComponent = ({ setCurr }: DoctorPageLeftComponentProps) => {
 								</Button>
 							</div>
 
+							<div className="flex justify-center my-6">
+								<Button
+									color="gradient"
+									onPress={acceptReq}
+									style={{ width: '20vw' }}
+								>
+									<div className="text-lg">Accept request</div>
+								</Button>
+							</div>
 							<div className="flex justify-center my-6">
 								<Button
 									color="gradient"

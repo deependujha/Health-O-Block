@@ -3,7 +3,13 @@ import SimpleBar from 'simplebar-react';
 import MainSubRightComponent from './SubRightComponents/MainSubRightComponent';
 
 type MainSubRightComponentProps = {
-	curr: 'shared_docs' | 'your_docs' | 'upload_new_docs' | 'profile' | 'welcome';
+	curr:
+		| 'shared_docs'
+		| 'your_docs'
+		| 'upload_new_docs'
+		| 'profile'
+		| 'welcome'
+		| 'accept_request';
 };
 
 const DoctorRightComponent = ({ curr }: MainSubRightComponentProps) => {
