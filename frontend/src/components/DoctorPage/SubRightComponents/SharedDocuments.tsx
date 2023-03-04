@@ -3,10 +3,13 @@ import { Loading } from '@nextui-org/react';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { getSigner } from './UploadDocs';
+import { useRouter } from 'next/router';
 
 const SharedDocuments = () => {
+	const router = useRouter();
 	const [loading, setLoading] = useState(true);
 	const [users, setUsers] = useState<any>([]);
+	const isDoctorPage = router.pathname === '/doctor';
 
 	const fetchThoseWhoSharedDocWithYou = async () => {
 		const signer = await getSigner();
@@ -49,7 +52,13 @@ const SharedDocuments = () => {
 
 				{loading === false && users.length === 0 && (
 					<div className="text-xl font-bold font-mono text-white py-40">
-						Seems like no one has added you as their nominee.👨‍⚕️
+						{isDoctorPage ? (
+							<div>
+								Seems like no one has shared their documents with you.👨‍⚕️
+							</div>
+						) : (
+							<div>Seems like no one has added you as their nominee.👨‍⚕️</div>
+						)}
 					</div>
 				)}
 			</div>

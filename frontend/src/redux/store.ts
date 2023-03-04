@@ -3,6 +3,7 @@ import AdminPanelReducer from './slices/AdminPanelSlice';
 import CitizenReducer from './slices/CitizenSlice';
 import DoctorReducer from './slices/DoctorSlice';
 import ShowNomineePdfReducer from './slices/ShowNomineePdf';
+import RefreshSlice from './slices/RefreshSlice';
 
 export const store = configureStore({
 	reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
 		citizen: CitizenReducer,
 		doctor: DoctorReducer,
 		showNominee: ShowNomineePdfReducer,
+		Refresh: RefreshSlice,
 	},
 });
 

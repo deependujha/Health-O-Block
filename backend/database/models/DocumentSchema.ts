@@ -35,6 +35,10 @@ const UserSharedDocumentWithDoctorSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	accepted: {
+		type: Boolean,
+		required: true,
+	}
 });
 
 const DocumentModelDetails = model(

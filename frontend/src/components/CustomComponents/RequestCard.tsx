@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import { Card } from '@nextui-org/react';
 import AcceptRequestModal from '../Modals/AcceptRequestModal';
 
-const RequestCard = () => {
+type Props = {
+	name: string;
+	addr: string;
+};
+
+const RequestCard = ({ name, addr }: Props) => {
 	const [acceptReqModalVisible, setAcceptReqModalVisible] = useState(false);
 	const cardClicked = async () => {
 		setAcceptReqModalVisible(true);
@@ -18,12 +23,14 @@ const RequestCard = () => {
 				onClick={cardClicked}
 			>
 				<Card.Body>
-					<div>{}Deependu Jha wants to share documents with you.</div>
+					<div>{name} wants to share documents with you.</div>
 				</Card.Body>
 			</Card>
 			<AcceptRequestModal
 				visible={acceptReqModalVisible}
 				setVisible={setAcceptReqModalVisible}
+				addr={addr}
+				name={name}
 			/>
 		</div>
 	);

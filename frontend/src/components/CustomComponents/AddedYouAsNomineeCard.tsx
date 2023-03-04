@@ -10,7 +10,7 @@ const AddedYouAsNomineeCard = ({ user }: any) => {
 	const dispatch = useDispatch();
 	const myImgUrl = imageUrlForBackend(user.imageUrl, false);
 	const viewDocsBtn = () => {
-		console.log('user wallet address is:', user.walletAddress);
+		// console.log('user wallet address is:', user.walletAddress);
 		dispatch(
 			setShowNomineePdf({
 				showNomineePdf: true,

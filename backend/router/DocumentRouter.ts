@@ -36,6 +36,7 @@ documentRouter.get('/share/:doctor', async (req, res) => {
 		const doctor = req.params.doctor;
 		const findDocShared = await UserSharedDocumentWithDoctorModel.find({
 			doctor,
+			accepted: true,
 		});
 		let users: any = [];
 		// loop over the nominees and get the user details
@@ -81,10 +82,50 @@ documentRouter.post('/share', async (req, res) => {
 			const document = new UserSharedDocumentWithDoctorModel({
 				user,
 				doctor,
+				accepted: false,
 			});
 			await document.save();
 		}
 
+		res.send('success');
+	} catch (err) {
+		res.status(400).send(err);
+	}
+});
+
+// get all the users whose requests are still pending to be accepted by the Doctors
+documentRouter.get('/pendingReq/:doctor', async (req, res) => {
+	try {
+		const doctor = req.params.doctor;
+		const findDocShared = await UserSharedDocumentWithDoctorModel.find({
+			doctor,
+			accepted: false,
+		});
+		let users: any = [];
+		// loop over the nominees and get the user details
+		for (let i = 0; i < findDocShared.length; i++) {
+			const user = await UserModel.findOne({
+				walletAddress: findDocShared[i].user,
+			});
+			if (user) {
+				users.push(user);
+			}
+		}
+		res.send(users);
+	} catch (err) {
+		res.status(400).send(err);
+	}
+});
+
+// accept the document shared with Doctor in database
+documentRouter.post('/share/accept', async (req, res) => {
+	try {
+		const { user, doctor } = req.body;
+		const updateDocShared =
+			await UserSharedDocumentWithDoctorModel.findOneAndUpdate(
+				{ user, doctor },
+				{ accepted: true }
+			);
 		res.send('success');
 	} catch (err) {
 		res.status(400).send(err);

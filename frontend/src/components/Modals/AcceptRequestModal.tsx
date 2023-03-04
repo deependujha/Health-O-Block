@@ -10,17 +10,27 @@ import {
 	Divider,
 	Loading,
 } from '@nextui-org/react';
+import axios from 'axios';
+import { getSigner } from '@/utils/SmartContractFunctions';
+import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import { changeValue } from '@/redux/slices/RefreshSlice';
 
-type LogoutConfirmationProps = {
+type Props = {
 	visible: boolean;
 	setVisible: React.Dispatch<React.SetStateAction<boolean>>;
+	addr: string;
+	name: string;
 };
 
 export default function AcceptRequestModal({
 	visible,
 	setVisible,
-}: LogoutConfirmationProps) {
+	addr,
+	name,
+}: Props) {
 	const router = useRouter();
+	const dispatch = useDispatch();
 	const [loadingAccept, setLoadingAccept] = useState(false);
 
 	const closeHandler = () => {
@@ -30,8 +40,32 @@ export default function AcceptRequestModal({
 
 	const acceptReq = async () => {
 		setLoadingAccept(true);
-		console.log('clicked on accept request');
-		setLoadingAccept(false);
+		const signer = await getSigner();
+		if (!signer) return;
+		const docAddr = await signer.getAddress();
+		axios
+			.post(`http://localhost:7000/document/share/accept`, {
+				user: addr,
+				doctor: docAddr,
+			})
+			.then((res) => {
+				setVisible(false);
+				dispatch(changeValue());
+				Swal.fire({
+					icon: 'success',
+					title: 'Request accepted',
+					text: 'You can now view the documents',
+				});
+			})
+			.catch((err) => {
+				console.log(err);
+				setVisible(false);
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Something went wrong!',
+				});
+			});
 	};
 	return (
 		<div>
@@ -49,8 +83,7 @@ export default function AcceptRequestModal({
 				<Divider />
 				<Modal.Body>
 					<div className="text-lg text-purple-800 font-bold">
-						{}
-						<span className="text-blue-500">Deependu Jha </span>
+						<span className="text-blue-500">{name} </span>
 						Wants to share documents with you.
 					</div>
 				</Modal.Body>
