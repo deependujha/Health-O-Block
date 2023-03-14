@@ -74,7 +74,9 @@ const RegisterNewUser = ({
 		// Connect to the MetaMask EIP-1193 object. This is a standard
 		// protocol that allows Ethers access to make all read-only
 		// requests through MetaMask.
-		provider = new ethers.BrowserProvider(window.ethereum);
+		provider = new ethers.providers.Web3Provider(window.ethereum);
+		// MetaMask requires requesting permission to connect users accounts
+		await provider.send('eth_requestAccounts', []);
 
 		// It also provides an opportunity to request access to write
 		// operations, which will be performed by the private key
@@ -87,8 +89,10 @@ const RegisterNewUser = ({
 		let sig = await signer.signMessage(message);
 
 		// Validating a message; notice the address matches the signer
-		let meow = ethers.verifyMessage(message, sig);
-		console.log('meow is:', meow);
+		// let meow = ethers.verifyMessage(message, sig);
+
+		const meow = await signer.getAddress();
+		// console.log('meow is:', meow);
 		setNewUserData({ ...newUserData, walletAddress: meow, loading: true });
 
 		const formData = new FormData();
