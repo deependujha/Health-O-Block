@@ -11,6 +11,7 @@ type currPossibleValues =
 	| 'search_user'
 	| 'register_new_doctor'
 	| 'search_doctor'
+	| 'add_speciality'
 	| 'welcome';
 
 type AdminPageLeftComponentProps = {
@@ -36,6 +37,10 @@ const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 
 	const searchDoctor = async () => {
 		setCurr('search_doctor');
+	};
+
+	const addSpeciality = async () => {
+		setCurr('add_speciality');
 	};
 
 	return (
@@ -76,6 +81,16 @@ const AdminPageLeftComponent = ({ setCurr }: AdminPageLeftComponentProps) => {
 									style={{ width: '20vw' }}
 								>
 									<div className="text-lg">Search Doctor</div>
+								</Button>
+							</div>
+
+							<div className="flex justify-center my-6">
+								<Button
+									color="gradient"
+									onPress={addSpeciality}
+									style={{ width: '20vw' }}
+								>
+									<div className="text-lg">Add speciality</div>
 								</Button>
 							</div>
 							<div className="flex justify-center my-6">

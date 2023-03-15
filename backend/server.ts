@@ -6,6 +6,7 @@ import {
 	NomineeRouter,
 	UserRouter,
 	DocumentRouter,
+	SpecialityRouter,
 } from './router';
 import cors from 'cors';
 
@@ -22,6 +23,7 @@ app.use('/doctor', DoctorRouter);
 app.use('/user', UserRouter);
 app.use('/nominee', NomineeRouter);
 app.use('/document', DocumentRouter);
+app.use('/speciality', SpecialityRouter);
 
 app.get('/', (req: Request, res: Response) => {
 	res.send('Hello World!');

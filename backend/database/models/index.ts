@@ -7,9 +7,12 @@ import {
 	UserSharedDocumentWithDoctorModel,
 } from './DocumentSchema';
 
+import SpecialityModel from './SpecialitySchema';
+
 export { DoctorModel as DoctorModel };
 export { UserModel as UserModel };
 export { NomineeModel as NomineeModel };
 export { DocumentModelDetails as DocumentModelDetails };
 export { SharedDocumentModel as SharedDocumentModel };
 export { UserSharedDocumentWithDoctorModel as UserSharedDocumentWithDoctorModel };
+export { SpecialityModel as SpecialityModel };

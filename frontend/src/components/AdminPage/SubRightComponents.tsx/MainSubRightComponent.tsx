@@ -3,9 +3,15 @@ import ApproveCitizens from './SearchUser';
 import RegisterNewDoctor from './RegisterNewDoctor';
 import SuperUserAccess from './SearchDoctor';
 import WelcomePage from './WelcomePage';
+import AddSpecialityComponent from './AddSpecialityComponent';
 
 type MainSubRightComponentProps = {
-	curr: 'search_user' | 'register_new_doctor' | 'search_doctor' | 'welcome';
+	curr:
+		| 'search_user'
+		| 'register_new_doctor'
+		| 'search_doctor'
+		| 'welcome'
+		| 'add_speciality';
 };
 
 const MainSubRightComponent = ({ curr }: MainSubRightComponentProps) => {
@@ -32,6 +38,12 @@ const MainSubRightComponent = ({ curr }: MainSubRightComponentProps) => {
 		return (
 			<div>
 				<WelcomePage />
+			</div>
+		);
+	} else if (curr === 'add_speciality') {
+		return (
+			<div>
+				<AddSpecialityComponent />
 			</div>
 		);
 	}
