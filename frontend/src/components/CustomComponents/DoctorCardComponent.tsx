@@ -29,7 +29,7 @@ const DoctorCardComponent = ({ name, imageUrl, walletAddress, email, description
 							<Image
 								src={myImageUrl}
 								width={300}
-								height={250}
+								height={200}
 								alt="nomineeImg"
 							/>
 						</div>

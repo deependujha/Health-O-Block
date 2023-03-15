@@ -1,11 +1,19 @@
 import HorizontalLine from '@/components/CustomComponents/HorizontalLine';
 import React, { useState } from 'react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const menuItems = [
 	{ key: 'none', name: 'None' },
 	{ key: 'eye', name: 'Eye Specialist' },
 	{ key: 'ear', name: 'Ear Specialist' },
 	{ key: 'heart', name: 'Heart Specialist' },
+	{ key: 'skin', name: 'Skin Specialist' },
+	{ key: 'dental', name: 'Dental Specialist' },
+	{ key: 'gastro', name: 'Gastroenterologist' },
+	{ key: 'neuro', name: 'Neurologist' },
+	{ key: 'gyno', name: 'Gynecologist' },
+	{ key: 'ortho', name: 'Orthopedic' },
 ];
 
 const AddSpecialityComponent = () => {
@@ -14,6 +22,39 @@ const AddSpecialityComponent = () => {
 
 	const selectionChange = (e: any) => {
 		setCurrItem(e.target.value);
+	};
+
+	const addSpecialityBtn = async () => {
+		if (inputVal === '') {
+			alert("Please enter doctor's wallet address");
+			return;
+		}
+		if (currItem === 'None') {
+			alert('Please select a speciality');
+			return;
+		}
+
+		axios
+			.post('http://localhost:7000/speciality', {
+				walletAddress: inputVal,
+				speciality: currItem,
+			})
+			.then((res) => {
+				Swal.fire({
+					icon: 'success',
+					title: 'Success',
+					text: 'Speciality added successfully',
+				});
+				setInputVal('');
+			})
+			.catch((err) => {
+				console.log('error is ', err);
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Something went wrong!',
+				});
+			});
 	};
 
 	return (
@@ -64,7 +105,10 @@ const AddSpecialityComponent = () => {
 							</form>
 						</div>
 						<div className="pt-8 flex justify-center">
-							<button className="bg-pink-500 text-white py-2 rounded-lg font-bold px-10">
+							<button
+								onClick={addSpecialityBtn}
+								className="bg-pink-500 text-white py-2 rounded-lg font-bold px-10"
+							>
 								Add Speciality
 							</button>
 						</div>
