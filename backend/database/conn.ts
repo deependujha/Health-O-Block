@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 mongoose.set('strictQuery', true);
 
 mongoose
-	.connect('mongodb://localhost:27017/ayushmanBharat')
+	.connect('mongodb://localhost:27017/health_o_block')
 	.then(() => {
 		console.log('Connected to MongoDB');
 	})
